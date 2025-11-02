@@ -42,7 +42,7 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
   textCard: {
     slug: 'textCard',
     component: TextCard,
-    layout: 'section-break',
+    layout: 'masonry',
     priority: false,
   },
 
