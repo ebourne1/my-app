@@ -299,14 +299,13 @@ svg {
 
 /* Masonry Section */
 .masonry-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  column-count: 2;
+  column-gap: 1.5rem;
   margin-bottom: 2rem;
 
   @media (max-width: 1023px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    column-count: 1;
+    column-gap: 0;
   }
 }
 
@@ -316,6 +315,12 @@ svg {
   overflow: hidden;
   border-radius: 8px;
   background: rgb(20, 20, 20);
+  break-inside: avoid; /* Prevents images from breaking across columns */
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 1023px) {
+    margin-bottom: 1rem;
+  }
 }
 
 .photo-wrapper {
