@@ -554,6 +554,10 @@ svg {
   transition: transform 0.3s ease;
 }
 
+.photo-image.grayscale {
+  filter: grayscale(100%);
+}
+
 .photo-card:hover .photo-image {
   transform: scale(1.02);
 }

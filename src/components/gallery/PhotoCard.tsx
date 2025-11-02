@@ -13,6 +13,7 @@ interface PhotoCardProps {
     isFilmPhoto?: boolean
     filmType?: string
     filmStock?: string
+    blackAndWhite?: boolean
   }
   priority?: boolean
   onPhotoClick?: (photo: {
@@ -53,6 +54,7 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
               image={image}
               caption={undefined} // Bulk photos don't have captions
               priority={priority && idx === 0} // Only first bulk image gets priority
+              blackAndWhite={block.blackAndWhite}
               onClick={
                 onPhotoClick
                   ? () =>
@@ -81,6 +83,7 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
       image={image}
       caption={block.caption}
       priority={priority}
+      blackAndWhite={block.blackAndWhite}
       onClick={
         onPhotoClick
           ? () =>
@@ -105,11 +108,13 @@ function PhotoCardItem({
   caption,
   priority,
   onClick,
+  blackAndWhite = false,
 }: {
   image: Media
   caption?: string
   priority: boolean
   onClick?: () => void
+  blackAndWhite?: boolean
 }) {
   const imageUrl = image.url
   const width = image.width || 1200
@@ -174,7 +179,7 @@ function PhotoCardItem({
           height={height}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           priority={priority}
-          className="photo-image"
+          className={`photo-image ${blackAndWhite ? 'grayscale' : ''}`}
         />
       </div>
       {/* Caption hidden in grid view - will be shown in modal */}

@@ -22,7 +22,7 @@ export default function Navbar() {
       {/* Large hero logo - fades out on scroll */}
       <div className={`hero-logo ${isScrolled ? 'hero-logo-hidden' : ''}`}>
         <Image
-          src="/images/BBLOGO.png"
+          src="/images/BBLOGOWT.png"
           alt="Britnee Bourne Photography"
           width={240}
           height={240}
@@ -44,7 +44,7 @@ export default function Navbar() {
           {/* Center logo - appears on scroll */}
           <div className={`navbar-center ${isScrolled ? 'navbar-center-visible' : ''}`}>
             <Image
-              src="/images/BBLOGO.png"
+              src="/images/BBLOGOWT.png"
               alt="Britnee Bourne Photography"
               width={80}
               height={80}

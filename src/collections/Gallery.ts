@@ -124,6 +124,14 @@ export const Gallery: CollectionConfig = {
                 description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
               },
             },
+            {
+              name: 'blackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Render this photo in black and white (grayscale filter)',
+              },
+            },
           ],
         },
 
@@ -197,6 +205,14 @@ export const Gallery: CollectionConfig = {
               admin: {
                 condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
+              },
+            },
+            {
+              name: 'blackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Render all photos in this batch in black and white (grayscale filter)',
               },
             },
           ],

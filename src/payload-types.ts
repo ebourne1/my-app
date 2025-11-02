@@ -207,6 +207,10 @@ export interface Gallery {
              * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
              */
             filmStock?: string | null;
+            /**
+             * Render this photo in black and white (grayscale filter)
+             */
+            blackAndWhite?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photo';
@@ -228,6 +232,10 @@ export interface Gallery {
              * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
              */
             filmStock?: string | null;
+            /**
+             * Render all photos in this batch in black and white (grayscale filter)
+             */
+            blackAndWhite?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photoBulk';
@@ -432,6 +440,7 @@ export interface GallerySelect<T extends boolean = true> {
               isFilmPhoto?: T;
               filmType?: T;
               filmStock?: T;
+              blackAndWhite?: T;
               id?: T;
               blockName?: T;
             };
@@ -442,6 +451,7 @@ export interface GallerySelect<T extends boolean = true> {
               isFilmPhoto?: T;
               filmType?: T;
               filmStock?: T;
+              blackAndWhite?: T;
               id?: T;
               blockName?: T;
             };
