@@ -73,6 +73,27 @@ export const Gallery: CollectionConfig = {
           ],
         },
 
+        // Block 1b: Bulk Photo Upload
+        {
+          slug: 'photoBulk',
+          labels: {
+            singular: 'Bulk Photos',
+            plural: 'Bulk Photos',
+          },
+          fields: [
+            {
+              name: 'images',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              hasMany: true,
+              admin: {
+                description: 'Upload multiple photos at once - they will all be added to the masonry gallery',
+              },
+            },
+          ],
+        },
+
         // Block 2: Featured Photo (Full Width with Optional Overlay)
         {
           slug: 'featuredPhoto',

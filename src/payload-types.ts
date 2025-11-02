@@ -201,6 +201,15 @@ export interface Gallery {
           }
         | {
             /**
+             * Upload multiple photos at once - they will all be added to the masonry gallery
+             */
+            images: (number | Media)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'photoBulk';
+          }
+        | {
+            /**
              * Featured photo - displays full-width across the page
              */
             image: number | Media;
@@ -384,6 +393,13 @@ export interface GallerySelect<T extends boolean = true> {
           | {
               image?: T;
               caption?: T;
+              id?: T;
+              blockName?: T;
+            };
+        photoBulk?:
+          | T
+          | {
+              images?: T;
               id?: T;
               blockName?: T;
             };

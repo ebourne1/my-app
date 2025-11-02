@@ -29,6 +29,12 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
     layout: 'masonry',
     priority: false,
   },
+  photoBulk: {
+    slug: 'photoBulk',
+    component: null as any, // Will be set in Phase 3: PhotoCard (handles bulk uploads)
+    layout: 'masonry',
+    priority: false,
+  },
   featuredPhoto: {
     slug: 'featuredPhoto',
     component: null as any, // Will be set in Phase 3: FeaturedPhoto
