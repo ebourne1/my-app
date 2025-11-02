@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    gallery: Gallery;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +78,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    gallery: GallerySelect<false> | GallerySelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -143,6 +145,9 @@ export interface User {
  */
 export interface Media {
   id: number;
+  /**
+   * Alternative text for accessibility and SEO
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -151,8 +156,119 @@ export interface Media {
   filename?: string | null;
   mimeType?: string | null;
   filesize?: number | null;
+  /**
+   * Image width in pixels (auto-populated)
+   */
   width?: number | null;
+  /**
+   * Image height in pixels (auto-populated)
+   */
   height?: number | null;
+}
+/**
+ * Manage your portfolio gallery with photos, featured images, and text content.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery".
+ */
+export interface Gallery {
+  id: number;
+  /**
+   * Internal title for this gallery (not displayed on website)
+   */
+  title: string;
+  /**
+   * Uncheck to hide this gallery from the website
+   */
+  published?: boolean | null;
+  /**
+   * Build your gallery by adding photos, featured photos, and text cards. Drag blocks to reorder. Featured photos and text cards display full-width.
+   */
+  items?:
+    | (
+        | {
+            /**
+             * Upload a photo for the masonry gallery
+             */
+            image: number | Media;
+            /**
+             * Optional caption displayed below the photo
+             */
+            caption?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'photo';
+          }
+        | {
+            /**
+             * Featured photo - displays full-width across the page
+             */
+            image: number | Media;
+            /**
+             * Show overlay with text and call-to-action button
+             */
+            enableOverlay?: boolean | null;
+            /**
+             * Text displayed over the photo (headline, tagline, etc.)
+             */
+            overlayText?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            /**
+             * Call-to-action button text (e.g., "Contact Me", "View Portfolio")
+             */
+            buttonText?: string | null;
+            /**
+             * URL for the button (e.g., "/contact", "mailto:email@example.com")
+             */
+            buttonLink?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featuredPhoto';
+          }
+        | {
+            /**
+             * Text content for storytelling or context. Displays full-width. Keep to 2-4 paragraphs for optimal layout.
+             */
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            /**
+             * Background color scheme for the text card
+             */
+            backgroundColor?: ('light' | 'dark' | 'accent') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textCard';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -168,6 +284,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'gallery';
+        value: number | Gallery;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -248,6 +368,47 @@ export interface MediaSelect<T extends boolean = true> {
   filesize?: T;
   width?: T;
   height?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery_select".
+ */
+export interface GallerySelect<T extends boolean = true> {
+  title?: T;
+  published?: T;
+  items?:
+    | T
+    | {
+        photo?:
+          | T
+          | {
+              image?: T;
+              caption?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featuredPhoto?:
+          | T
+          | {
+              image?: T;
+              enableOverlay?: T;
+              overlayText?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textCard?:
+          | T
+          | {
+              content?: T;
+              backgroundColor?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
