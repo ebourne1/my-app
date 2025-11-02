@@ -195,6 +195,18 @@ export interface Gallery {
              * Optional caption displayed below the photo
              */
             caption?: string | null;
+            /**
+             * Mark this as a film photograph to display vintage camera icon and film details
+             */
+            isFilmPhoto?: boolean | null;
+            /**
+             * Film format used for this photograph
+             */
+            filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+            /**
+             * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
+             */
+            filmStock?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photo';
@@ -204,6 +216,18 @@ export interface Gallery {
              * Upload multiple photos at once - they will all be added to the masonry gallery
              */
             images: (number | Media)[];
+            /**
+             * Mark all photos in this batch as film photographs
+             */
+            isFilmPhoto?: boolean | null;
+            /**
+             * Film format used for all photos in this batch
+             */
+            filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+            /**
+             * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
+             */
+            filmStock?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photoBulk';
@@ -243,6 +267,18 @@ export interface Gallery {
              * URL for the button (e.g., "/contact", "mailto:email@example.com")
              */
             buttonLink?: string | null;
+            /**
+             * Font family for overlay text
+             */
+            fontFamily?: ('lobster-two' | 'playfair' | 'bebas' | 'inter') | null;
+            /**
+             * Font size in pixels (24-120)
+             */
+            fontSize?: number | null;
+            /**
+             * Font color as hex code (e.g., #ffffff for white)
+             */
+            fontColor?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'featuredPhoto';
@@ -393,6 +429,9 @@ export interface GallerySelect<T extends boolean = true> {
           | {
               image?: T;
               caption?: T;
+              isFilmPhoto?: T;
+              filmType?: T;
+              filmStock?: T;
               id?: T;
               blockName?: T;
             };
@@ -400,6 +439,9 @@ export interface GallerySelect<T extends boolean = true> {
           | T
           | {
               images?: T;
+              isFilmPhoto?: T;
+              filmType?: T;
+              filmStock?: T;
               id?: T;
               blockName?: T;
             };
@@ -411,6 +453,9 @@ export interface GallerySelect<T extends boolean = true> {
               overlayText?: T;
               buttonText?: T;
               buttonLink?: T;
+              fontFamily?: T;
+              fontSize?: T;
+              fontColor?: T;
               id?: T;
               blockName?: T;
             };

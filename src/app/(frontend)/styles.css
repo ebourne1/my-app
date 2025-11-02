@@ -938,3 +938,63 @@ svg {
     }
   }
 }
+
+/* Film Metadata Styles */
+.film-metadata {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.film-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.vintage-camera-icon {
+  color: rgb(220, 200, 150);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.film-label {
+  color: rgb(220, 200, 150);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
+.film-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.film-type,
+.film-stock {
+  color: rgb(200, 200, 200);
+  font-size: 0.875rem;
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+}
+
+.caption-text {
+  color: rgb(220, 220, 220);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}

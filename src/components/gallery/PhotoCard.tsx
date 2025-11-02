@@ -10,9 +10,18 @@ interface PhotoCardProps {
     image?: Media | string
     images?: (Media | string)[] // For bulk upload
     caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
   }
   priority?: boolean
-  onPhotoClick?: (photo: { image: Media; caption?: string }) => void
+  onPhotoClick?: (photo: {
+    image: Media
+    caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
+  }) => void
 }
 
 /**
@@ -44,7 +53,18 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
               image={image}
               caption={undefined} // Bulk photos don't have captions
               priority={priority && idx === 0} // Only first bulk image gets priority
-              onClick={onPhotoClick ? () => onPhotoClick({ image, caption: undefined }) : undefined}
+              onClick={
+                onPhotoClick
+                  ? () =>
+                      onPhotoClick({
+                        image,
+                        caption: undefined,
+                        isFilmPhoto: block.isFilmPhoto,
+                        filmType: block.filmType,
+                        filmStock: block.filmStock,
+                      })
+                  : undefined
+              }
             />
           )
         })}
@@ -61,7 +81,18 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
       image={image}
       caption={block.caption}
       priority={priority}
-      onClick={onPhotoClick ? () => onPhotoClick({ image, caption: block.caption }) : undefined}
+      onClick={
+        onPhotoClick
+          ? () =>
+              onPhotoClick({
+                image,
+                caption: block.caption,
+                isFilmPhoto: block.isFilmPhoto,
+                filmType: block.filmType,
+                filmStock: block.filmStock,
+              })
+          : undefined
+      }
     />
   )
 }

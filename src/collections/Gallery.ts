@@ -70,6 +70,60 @@ export const Gallery: CollectionConfig = {
                 description: 'Optional caption displayed below the photo',
               },
             },
+            {
+              name: 'isFilmPhoto',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark this as a film photograph to display vintage camera icon and film details',
+              },
+            },
+            {
+              name: 'filmType',
+              type: 'select',
+              options: [
+                {
+                  label: '35mm',
+                  value: '35mm',
+                },
+                {
+                  label: '645 Medium Format',
+                  value: '645',
+                },
+                {
+                  label: '6x6 Medium Format',
+                  value: '6x6',
+                },
+                {
+                  label: '6x7 Medium Format',
+                  value: '6x7',
+                },
+                {
+                  label: '6x9 Medium Format',
+                  value: '6x9',
+                },
+                {
+                  label: 'Large Format 4x5',
+                  value: '4x5',
+                },
+                {
+                  label: 'Large Format 8x10',
+                  value: '8x10',
+                },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film format used for this photograph',
+              },
+            },
+            {
+              name: 'filmStock',
+              type: 'text',
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
+              },
+            },
           ],
         },
 
@@ -89,6 +143,60 @@ export const Gallery: CollectionConfig = {
               hasMany: true,
               admin: {
                 description: 'Upload multiple photos at once - they will all be added to the masonry gallery',
+              },
+            },
+            {
+              name: 'isFilmPhoto',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark all photos in this batch as film photographs',
+              },
+            },
+            {
+              name: 'filmType',
+              type: 'select',
+              options: [
+                {
+                  label: '35mm',
+                  value: '35mm',
+                },
+                {
+                  label: '645 Medium Format',
+                  value: '645',
+                },
+                {
+                  label: '6x6 Medium Format',
+                  value: '6x6',
+                },
+                {
+                  label: '6x7 Medium Format',
+                  value: '6x7',
+                },
+                {
+                  label: '6x9 Medium Format',
+                  value: '6x9',
+                },
+                {
+                  label: 'Large Format 4x5',
+                  value: '4x5',
+                },
+                {
+                  label: 'Large Format 8x10',
+                  value: '8x10',
+                },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film format used for all photos in this batch',
+              },
+            },
+            {
+              name: 'filmStock',
+              type: 'text',
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
               },
             },
           ],
@@ -144,6 +252,57 @@ export const Gallery: CollectionConfig = {
               admin: {
                 condition: (data, siblingData) => siblingData?.enableOverlay === true,
                 description: 'URL for the button (e.g., "/contact", "mailto:email@example.com")',
+              },
+            },
+            {
+              name: 'fontFamily',
+              type: 'select',
+              defaultValue: 'lobster-two',
+              options: [
+                {
+                  label: 'Lobster Two Bold Italic',
+                  value: 'lobster-two',
+                },
+                {
+                  label: 'Playfair Display',
+                  value: 'playfair',
+                },
+                {
+                  label: 'Bebas Neue',
+                  value: 'bebas',
+                },
+                {
+                  label: 'Inter',
+                  value: 'inter',
+                },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.enableOverlay === true,
+                description: 'Font family for overlay text',
+              },
+            },
+            {
+              name: 'fontSize',
+              type: 'number',
+              defaultValue: 64,
+              min: 24,
+              max: 120,
+              admin: {
+                condition: (data, siblingData) => siblingData?.enableOverlay === true,
+                description: 'Font size in pixels (24-120)',
+              },
+            },
+            {
+              name: 'fontColor',
+              type: 'text',
+              defaultValue: '#ffffff',
+              validate: (val) => {
+                if (!val) return true
+                return /^#[0-9A-F]{6}$/i.test(val) || 'Must be a valid hex color (e.g., #ffffff)'
+              },
+              admin: {
+                condition: (data, siblingData) => siblingData?.enableOverlay === true,
+                description: 'Font color as hex code (e.g., #ffffff for white)',
               },
             },
           ],

@@ -10,6 +10,9 @@ interface PhotoModalProps {
   photo: {
     image: Media
     caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
   } | null
 }
 
@@ -48,7 +51,7 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
 
   if (!isOpen || !photo) return null
 
-  const { image, caption } = photo
+  const { image, caption, isFilmPhoto, filmType, filmStock } = photo
   const imageUrl = image.url
   const width = image.width || 1200
   const height = image.height || 800
@@ -77,10 +80,32 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
           />
         </div>
 
-        {/* Caption */}
-        {caption && (
+        {/* Caption and metadata */}
+        {(caption || isFilmPhoto) && (
           <div className="photo-modal-caption">
-            <p>{caption}</p>
+            {/* Film metadata */}
+            {isFilmPhoto && (
+              <div className="film-metadata">
+                <div className="film-header">
+                  <svg className="vintage-camera-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="8" width="20" height="12" rx="2" />
+                    <circle cx="12" cy="14" r="3" />
+                    <path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                    <circle cx="17" cy="11" r="0.5" fill="currentColor" />
+                  </svg>
+                  <span className="film-label">Film Photograph</span>
+                </div>
+                {(filmType || filmStock) && (
+                  <div className="film-details">
+                    {filmType && <span className="film-type">{filmType}</span>}
+                    {filmStock && <span className="film-stock">{filmStock}</span>}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Caption */}
+            {caption && <p className="caption-text">{caption}</p>}
           </div>
         )}
       </div>

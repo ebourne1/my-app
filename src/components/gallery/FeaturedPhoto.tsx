@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
+import { fontMap, type FontFamily } from '@/lib/fonts'
 
 interface FeaturedPhotoProps {
   block: {
@@ -12,6 +13,9 @@ interface FeaturedPhotoProps {
     overlayText?: any // Lexical RichText JSON
     buttonText?: string
     buttonLink?: string
+    fontFamily?: FontFamily
+    fontSize?: number
+    fontColor?: string
   }
 }
 
@@ -73,6 +77,18 @@ export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
   const height = image.height || 1200
   const alt = image.alt || 'Featured photo'
 
+  // Get font configuration with defaults
+  const fontFamily = block.fontFamily || 'lobster-two'
+  const fontSize = block.fontSize || 64
+  const fontColor = block.fontColor || '#ffffff'
+  const selectedFont = fontMap[fontFamily]
+
+  // Build inline styles for overlay text
+  const overlayTextStyle: React.CSSProperties = {
+    fontSize: `${fontSize}px`,
+    color: fontColor,
+  }
+
   return (
     <div ref={featuredRef} className={`featured-photo reveal-on-scroll ${isRevealed ? 'revealed' : ''}`}>
       <div className="featured-photo-wrapper">
@@ -90,7 +106,7 @@ export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
           <div className="featured-overlay">
             <div className="overlay-content">
               {block.overlayText && (
-                <div className="overlay-text">
+                <div className={`overlay-text ${selectedFont.className}`} style={overlayTextStyle}>
                   <RichTextRenderer data={block.overlayText} />
                 </div>
               )}

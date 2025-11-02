@@ -26,9 +26,18 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<{
     image: Media
     caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
   } | null>(null)
 
-  const handlePhotoClick = (photo: { image: Media; caption?: string }) => {
+  const handlePhotoClick = (photo: {
+    image: Media
+    caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
+  }) => {
     // Disable modal on mobile screens (< 768px)
     if (window.innerWidth < 768) {
       return
