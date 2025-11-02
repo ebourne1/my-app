@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 
@@ -9,6 +11,7 @@ interface PhotoCardProps {
     caption?: string
   }
   priority?: boolean
+  onClick?: () => void
 }
 
 /**
@@ -22,9 +25,10 @@ interface PhotoCardProps {
  * - Responsive sizing with proper sizes prop
  * - Priority loading for above-fold images
  * - Layout shift prevention using width/height
- * - Optional caption display
+ * - Clickable to open in lightbox modal
+ * - Caption hidden in grid, shown in modal only
  */
-export default function PhotoCard({ block, priority = false }: PhotoCardProps) {
+export default function PhotoCard({ block, priority = false, onClick }: PhotoCardProps) {
   // Handle photoBulk block type - render multiple images
   if (block.blockType === 'photoBulk' && block.images) {
     return (
@@ -39,6 +43,7 @@ export default function PhotoCard({ block, priority = false }: PhotoCardProps) {
               image={image}
               caption={undefined} // Bulk photos don't have captions
               priority={priority && idx === 0} // Only first bulk image gets priority
+              onClick={onClick}
             />
           )
         })}
@@ -50,7 +55,7 @@ export default function PhotoCard({ block, priority = false }: PhotoCardProps) {
   const image = typeof block.image === 'string' ? null : block.image
   if (!image) return null
 
-  return <PhotoCardItem image={image} caption={block.caption} priority={priority} />
+  return <PhotoCardItem image={image} caption={block.caption} priority={priority} onClick={onClick} />
 }
 
 /**
@@ -60,10 +65,12 @@ function PhotoCardItem({
   image,
   caption,
   priority,
+  onClick,
 }: {
   image: Media
   caption?: string
   priority: boolean
+  onClick?: () => void
 }) {
   const imageUrl = image.url
   const width = image.width || 1200
@@ -76,7 +83,18 @@ function PhotoCardItem({
   }
 
   return (
-    <div className="photo-card">
+    <div
+      className={`photo-card ${onClick ? 'photo-card-clickable' : ''}`}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      } : undefined}
+    >
       <div className="photo-wrapper">
         <Image
           src={imageUrl}
@@ -88,7 +106,7 @@ function PhotoCardItem({
           className="photo-image"
         />
       </div>
-      {caption && <p className="photo-caption">{caption}</p>}
+      {/* Caption hidden in grid view - will be shown in modal */}
     </div>
   )
 }
