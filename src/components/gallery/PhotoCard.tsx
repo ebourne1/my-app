@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 
@@ -84,6 +85,37 @@ function PhotoCardItem({
   const height = image.height || 800
   const alt = image.alt || 'Gallery photo'
 
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  // Intersection Observer for scroll reveal animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsRevealed(true)
+            observer.unobserve(entry.target) // Only animate once
+          }
+        })
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of element is visible
+        rootMargin: '50px', // Start animation slightly before element enters viewport
+      }
+    )
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current)
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current)
+      }
+    }
+  }, [])
+
   if (!imageUrl) {
     console.warn('Image missing URL:', image)
     return null
@@ -91,7 +123,8 @@ function PhotoCardItem({
 
   return (
     <div
-      className={`photo-card ${onClick ? 'photo-card-clickable' : ''}`}
+      ref={cardRef}
+      className={`photo-card reveal-on-scroll ${isRevealed ? 'revealed' : ''} ${onClick ? 'photo-card-clickable' : ''}`}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}

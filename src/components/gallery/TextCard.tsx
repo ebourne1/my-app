@@ -1,3 +1,7 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+
 interface TextCardProps {
   block: {
     blockType: 'textCard'
@@ -22,13 +26,47 @@ interface TextCardProps {
 export default function TextCard({ block }: TextCardProps) {
   const { content, backgroundColor = 'light' } = block
 
+  const textCardRef = useRef<HTMLDivElement>(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  // Intersection Observer for scroll reveal animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsRevealed(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px',
+      }
+    )
+
+    if (textCardRef.current) {
+      observer.observe(textCardRef.current)
+    }
+
+    return () => {
+      if (textCardRef.current) {
+        observer.unobserve(textCardRef.current)
+      }
+    }
+  }, [])
+
   if (!content) {
     console.warn('TextCard missing content:', block)
     return null
   }
 
   return (
-    <div className={`text-card text-card-${backgroundColor}`}>
+    <div
+      ref={textCardRef}
+      className={`text-card text-card-${backgroundColor} reveal-on-scroll ${isRevealed ? 'revealed' : ''}`}
+    >
       <div className="text-card-content">
         <RichTextRenderer data={content} />
       </div>

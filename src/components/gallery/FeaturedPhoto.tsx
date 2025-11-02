@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 
@@ -29,6 +32,37 @@ interface FeaturedPhotoProps {
 export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
   const image = typeof block.image === 'string' ? null : block.image
 
+  const featuredRef = useRef<HTMLDivElement>(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  // Intersection Observer for scroll reveal animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsRevealed(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px',
+      }
+    )
+
+    if (featuredRef.current) {
+      observer.observe(featuredRef.current)
+    }
+
+    return () => {
+      if (featuredRef.current) {
+        observer.unobserve(featuredRef.current)
+      }
+    }
+  }, [])
+
   if (!image || !image.url) {
     console.warn('Featured photo missing image:', block)
     return null
@@ -40,7 +74,7 @@ export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
   const alt = image.alt || 'Featured photo'
 
   return (
-    <div className="featured-photo">
+    <div ref={featuredRef} className={`featured-photo reveal-on-scroll ${isRevealed ? 'revealed' : ''}`}>
       <div className="featured-photo-wrapper">
         <Image
           src={imageUrl}
