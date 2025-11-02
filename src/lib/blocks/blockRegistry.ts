@@ -11,11 +11,9 @@
  */
 
 import type { BlockConfig } from './types'
-
-// Components will be imported here as we create them in Phase 3
-// import PhotoCard from '@/components/gallery/PhotoCard'
-// import FeaturedPhoto from '@/components/gallery/FeaturedPhoto'
-// import TextCard from '@/components/gallery/TextCard'
+import PhotoCard from '@/components/gallery/PhotoCard'
+import FeaturedPhoto from '@/components/gallery/FeaturedPhoto'
+import TextCard from '@/components/gallery/TextCard'
 
 /**
  * Block Registry - maps block types to their rendering configuration
@@ -25,25 +23,25 @@ import type { BlockConfig } from './types'
 export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
   photo: {
     slug: 'photo',
-    component: null as any, // Will be set in Phase 3: PhotoCard
+    component: PhotoCard,
     layout: 'masonry',
     priority: false,
   },
   photoBulk: {
     slug: 'photoBulk',
-    component: null as any, // Will be set in Phase 3: PhotoCard (handles bulk uploads)
+    component: PhotoCard, // PhotoCard handles both single and bulk photos
     layout: 'masonry',
     priority: false,
   },
   featuredPhoto: {
     slug: 'featuredPhoto',
-    component: null as any, // Will be set in Phase 3: FeaturedPhoto
+    component: FeaturedPhoto,
     layout: 'section-break',
     priority: true,
   },
   textCard: {
     slug: 'textCard',
-    component: null as any, // Will be set in Phase 3: TextCard
+    component: TextCard,
     layout: 'section-break',
     priority: false,
   },

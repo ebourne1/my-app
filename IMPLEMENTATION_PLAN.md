@@ -946,27 +946,38 @@ export default function Footer() {
 
 ## Implementation Phases
 
-### Phase 1: Foundation (Collections, Config & Block Registry)
+### Phase 1: Foundation (Collections, Config & Block Registry) ✅ COMPLETE
 **Estimated Time:** 1.5-2.5 hours
+**Actual Time:** ~2 hours
 
 **Tasks:**
-1. Create block registry system:
-   - Create `src/lib/blocks/types.ts` (TypeScript types)
-   - Create `src/lib/blocks/blockRegistry.ts` (Block configuration)
-   - Create `src/lib/blocks/sectionSplitter.ts` (Section splitting logic)
-2. Create Gallery collection (`src/collections/Gallery.ts`)
-3. Modify Media collection to add dimension fields
-4. Update `payload.config.ts` to register Gallery collection
-5. Configure `next.config.js` for R2 remote patterns
-6. Run database migrations
-7. Test admin panel - create test gallery items
+1. ✅ Create block registry system:
+   - ✅ Create `src/lib/blocks/types.ts` (TypeScript types)
+   - ✅ Create `src/lib/blocks/blockRegistry.ts` (Block configuration)
+   - ✅ Create `src/lib/blocks/sectionSplitter.ts` (Section splitting logic)
+2. ✅ Create Gallery collection (`src/collections/Gallery.ts`)
+3. ✅ Modify Media collection to add dimension fields
+4. ✅ Update `payload.config.ts` to register Gallery collection
+5. ✅ Configure `next.config.ts` for R2 remote patterns
+6. ✅ Run database migrations
+7. ✅ Test admin panel - create test gallery items
 
 **Validation:**
-- [ ] Block registry files created and exporting correctly
-- [ ] Can create gallery in admin panel
-- [ ] Can upload images to media collection
-- [ ] Can add all three block types (photo, featured, text)
-- [ ] Can reorder blocks via drag-and-drop
+- [x] Block registry files created and exporting correctly
+- [x] Can create gallery in admin panel
+- [x] Can upload images to media collection
+- [x] Can add all four block types (photo, photoBulk, featured, text)
+- [x] Can reorder blocks via drag-and-drop
+
+**Implementation Notes:**
+- **Bulk Upload Feature Added**: After initial implementation and user testing, added `photoBulk` block type with `hasMany: true` to enable multi-file selection for photographers. This allows uploading multiple photos at once to streamline the workflow.
+- **Database Schema Fix**: Encountered duplicate index error (`payload_locked_documents_rels_order_idx`) which was resolved by dropping the index via wrangler and allowing Payload to recreate it.
+- **Block Types Implemented**:
+  - `photo` - Single photo upload with optional caption
+  - `photoBulk` - Multi-file upload for batch photo additions (NEW)
+  - `featuredPhoto` - Full-width photo with optional overlay, text, and CTA button
+  - `textCard` - Rich text content with background color options
+- **Registry System Working**: Block registry successfully abstracts component rendering and layout logic, making future extensions trivial.
 
 ---
 
