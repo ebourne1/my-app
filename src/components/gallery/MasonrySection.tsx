@@ -29,6 +29,10 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
   } | null>(null)
 
   const handlePhotoClick = (photo: { image: Media; caption?: string }) => {
+    // Disable modal on mobile screens (< 768px)
+    if (window.innerWidth < 768) {
+      return
+    }
     setSelectedPhoto(photo)
   }
 
@@ -58,10 +62,10 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
           // Priority loading for first 4 items (above-fold on most screens)
           const priority = index < 4 && config.priority !== false
 
-          // Pass click handler to photo components only
+          // Pass click handler to photo components (both photo and photoBulk)
           const extraProps: any = {}
-          if (item.blockType === 'photo') {
-            extraProps.onClick = () => handlePhotoClick(item)
+          if (item.blockType === 'photo' || item.blockType === 'photoBulk') {
+            extraProps.onPhotoClick = handlePhotoClick
           }
 
           return (

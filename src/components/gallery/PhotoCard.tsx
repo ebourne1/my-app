@@ -11,7 +11,7 @@ interface PhotoCardProps {
     caption?: string
   }
   priority?: boolean
-  onClick?: () => void
+  onPhotoClick?: (photo: { image: Media; caption?: string }) => void
 }
 
 /**
@@ -28,7 +28,7 @@ interface PhotoCardProps {
  * - Clickable to open in lightbox modal
  * - Caption hidden in grid, shown in modal only
  */
-export default function PhotoCard({ block, priority = false, onClick }: PhotoCardProps) {
+export default function PhotoCard({ block, priority = false, onPhotoClick }: PhotoCardProps) {
   // Handle photoBulk block type - render multiple images
   if (block.blockType === 'photoBulk' && block.images) {
     return (
@@ -43,7 +43,7 @@ export default function PhotoCard({ block, priority = false, onClick }: PhotoCar
               image={image}
               caption={undefined} // Bulk photos don't have captions
               priority={priority && idx === 0} // Only first bulk image gets priority
-              onClick={onClick}
+              onClick={onPhotoClick ? () => onPhotoClick({ image, caption: undefined }) : undefined}
             />
           )
         })}
@@ -55,7 +55,14 @@ export default function PhotoCard({ block, priority = false, onClick }: PhotoCar
   const image = typeof block.image === 'string' ? null : block.image
   if (!image) return null
 
-  return <PhotoCardItem image={image} caption={block.caption} priority={priority} onClick={onClick} />
+  return (
+    <PhotoCardItem
+      image={image}
+      caption={block.caption}
+      priority={priority}
+      onClick={onPhotoClick ? () => onPhotoClick({ image, caption: block.caption }) : undefined}
+    />
+  )
 }
 
 /**

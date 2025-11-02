@@ -681,19 +681,21 @@ svg {
   }
 }
 
-/* Clickable Photo Card */
-.photo-card-clickable {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+/* Clickable Photo Card - Only on desktop (>= 768px) */
+@media (min-width: 768px) {
+  .photo-card-clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-.photo-card-clickable:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
+  .photo-card-clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
 
-.photo-card-clickable:active {
-  transform: translateY(0);
+  .photo-card-clickable:active {
+    transform: translateY(0);
+  }
 }
 
 /* Photo Modal */
