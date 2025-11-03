@@ -1,62 +1,15 @@
-'use client'
-
-import { useState, useEffect, useRef } from 'react'
-
-interface AnimatedSignatureProps {
-  onAnimationComplete?: () => void
-}
-
-/**
- * AnimatedSignature Component
- *
- * Displays an animated "handwriting" of the Britnee Bourne signature logo
- * on initial page load. Uses stroke-dasharray animation to simulate
- * the signature being drawn with a pen.
- */
-export default function AnimatedSignature({ onAnimationComplete }: AnimatedSignatureProps) {
-  const [isAnimating, setIsAnimating] = useState(true)
-  const [isVisible, setIsVisible] = useState(true)
-  const pathRef = useRef<SVGPathElement>(null)
-
-  useEffect(() => {
-    // Calculate and set the actual path length for accurate animation
-    if (pathRef.current) {
-      const pathLength = pathRef.current.getTotalLength()
-      pathRef.current.style.strokeDasharray = `${pathLength}`
-      pathRef.current.style.strokeDashoffset = `${pathLength}`
-    }
-
-    // Animation duration: 3 seconds drawing, then call completion callback
-    const animationTimer = setTimeout(() => {
-      setIsAnimating(false)
-      if (onAnimationComplete) {
-        onAnimationComplete()
-      }
-    }, 3200)
-
-    return () => clearTimeout(animationTimer)
-  }, [onAnimationComplete])
-
-  return (
-    <div className="signature-animation-wrapper">
-      <svg
-        className="signature-svg-animated"
-        viewBox="420 0 1080 1080"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <mask id="signatureMask">
-            <path
-              ref={pathRef}
-              className="signature-path"
-              fill="none"
-              stroke="#FFFFFF"
-              strokeWidth="80"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeMiterlimit="10"
-              d="M627,272c-5.58,20.64-14.74,54.67-26,97c-23.18,87.15-25.52,97.82-31,98c-16.66,0.55-62.55-96.23-20-165
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.6.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 1080" enable-background="new 0 0 1920 1080" xml:space="preserve">
+<g id="Layer_1" display="none">
+	
+		<image display="inline" overflow="visible" width="1024" height="1024" xlink:href="BBLOGOWT.png"  transform="matrix(1 0 0 1 448 28)">
+	</image>
+</g>
+<g id="Layer_2">
+	<path fill="none" stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M627,272c-5.58,20.64-14.74,54.67-26,97c-23.18,87.15-25.52,97.82-31,98c-16.66,0.55-62.55-96.23-20-165
 		c40.56-65.55,142.45-79.45,162-54c13.06,17-8.79,54-10,56c-25.33,41.96-77.69,53.58-76,58c1.1,2.86,24.72-10.62,49-3
 		c18.43,5.78,35.42,23.13,39,42c7.1,37.42-39.55,75.44-78,89c-48.66,17.17-99.94,0.73-100-8c-0.09-14.56,150.05,6.51,211-78
 		c20.43-28.33,35.88-75.51,30-79c-3.94-2.34-20.83,12.92-18,22c4.09,13.12,52.03,1.39,57,15c2.55,6.97-8.78,13.13-19,30
@@ -79,17 +32,6 @@ export default function AnimatedSignature({ onAnimationComplete }: AnimatedSigna
 		c23.38-29.61,57.76-45.8,65-39c7.12,6.7-13.35,34.49-18.8,88.55c-0.99,9.82-1.49,20.57,3.8,23.45c8.69,4.73,27.67-14.62,30-17
 		c17.27-17.61,14.68-28.24,29-40c12.5-10.26,19.22-4.4,35-14c20.69-12.58,49.62-51.06,41-61c-6.61-7.63-34.37,5.21-50,16
 		c-10.45,7.22-26.8,18.51-33,39c-8.91,29.43,6.33,67.18,28,74c30.5,9.59,82.95-43.63,76-57c-23-44.28-706.02,266.39-703,274
-		c1.47,3.71,161.17-76.22,398-109c108.29-14.99,200.98-15.74,269-13"
-            />
-          </mask>
-        </defs>
-        <image
-          href="/images/BBLOGOWT.png"
-          width="1920"
-          height="1080"
-          mask="url(#signatureMask)"
-        />
-      </svg>
-    </div>
-  )
-}
+		c1.47,3.71,161.17-76.22,398-109c108.29-14.99,200.98-15.74,269-13"/>
+</g>
+</svg>

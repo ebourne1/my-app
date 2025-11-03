@@ -3,9 +3,15 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import AnimatedSignature from './AnimatedSignature'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [showAnimation, setShowAnimation] = useState(false)
+  const [showStaticLogo, setShowStaticLogo] = useState(false)
+  const [hideNavLinks, setHideNavLinks] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,22 +23,47 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    // Only show animation on homepage if not seen yet
+    if (pathname === '/') {
+      const hasSeenAnimation = sessionStorage.getItem('hasSeenSignatureAnimation')
+      if (!hasSeenAnimation) {
+        setShowAnimation(true)
+        setHideNavLinks(true)
+        setShowStaticLogo(false)
+      } else {
+        setShowStaticLogo(true)
+      }
+    } else {
+      setShowStaticLogo(true)
+    }
+  }, [pathname])
+
+  const handleAnimationComplete = () => {
+    // Animation complete - just show nav links, keep animated logo visible
+    setHideNavLinks(false)
+  }
+
   return (
     <>
-      {/* Large hero logo - fades out on scroll */}
+      {/* Large hero logo container - holds animated or static logo */}
       <div className={`hero-logo ${isScrolled ? 'hero-logo-hidden' : ''}`}>
-        <Image
-          src="/images/BBLOGOWT.png"
-          alt="Britnee Bourne Photography"
-          width={240}
-          height={240}
-          className="hero-logo-image"
-          priority
-        />
+        {showAnimation ? (
+          <AnimatedSignature onAnimationComplete={handleAnimationComplete} />
+        ) : showStaticLogo ? (
+          <Image
+            src="/images/BBLOGOWT.png"
+            alt="Britnee Bourne Photography"
+            width={240}
+            height={240}
+            className="hero-logo-image"
+            priority
+          />
+        ) : null}
       </div>
 
       {/* Main navbar */}
-      <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
+      <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''} ${hideNavLinks ? 'navbar-hidden' : ''}`}>
         <div className="navbar-container">
           {/* Left navigation */}
           <div className="navbar-left">
