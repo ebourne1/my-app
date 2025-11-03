@@ -10,7 +10,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [showAnimation, setShowAnimation] = useState(false)
   const [showStaticLogo, setShowStaticLogo] = useState(false)
-  const [hideNavLinks, setHideNavLinks] = useState(false)
+  const [hideNavLinks, setHideNavLinks] = useState(true) // Start hidden
   const pathname = usePathname()
 
   useEffect(() => {
@@ -33,9 +33,11 @@ export default function Navbar() {
         setShowStaticLogo(false)
       } else {
         setShowStaticLogo(true)
+        setHideNavLinks(false) // Show nav links immediately if animation already seen
       }
     } else {
       setShowStaticLogo(true)
+      setHideNavLinks(false)
     }
   }, [pathname])
 

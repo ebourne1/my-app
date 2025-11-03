@@ -1018,7 +1018,6 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeOutSignature 0.5s ease-out 3s forwards;
 }
 
 .signature-svg-animated {
@@ -1036,33 +1035,25 @@ svg {
   animation: drawSignature 3s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
 }
 
-/* Hero logo image fades in after animation */
+/* Static hero logo image (shown when animation is skipped) */
 .hero-logo-image {
-  opacity: 0;
-  animation: fadeInStaticLogo 0.5s ease-in forwards;
+  opacity: 1;
 }
 
 /* Hide navbar links during animation */
 .navbar-hidden {
-  opacity: 0;
+  opacity: 0 !important;
   pointer-events: none;
+}
+
+/* Navbar links fade in after animation */
+.navbar {
+  transition: opacity 0.5s ease-in;
 }
 
 @keyframes fadeInLogo {
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fadeInStaticLogo {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOutSignature {
-  to {
-    opacity: 0;
   }
 }
 

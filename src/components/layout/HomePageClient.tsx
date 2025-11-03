@@ -21,11 +21,12 @@ export default function HomePageClient({ children }: HomePageClientProps) {
     const hasSeenAnimation = sessionStorage.getItem('hasSeenSignatureAnimation')
 
     if (!hasSeenAnimation) {
-      // Wait for animation to complete before showing content
       sessionStorage.setItem('hasSeenSignatureAnimation', 'true')
+
+      // Wait for animation to complete before showing content
       const timer = setTimeout(() => {
         setShowContent(true)
-      }, 3500)
+      }, 3200)
       return () => clearTimeout(timer)
     } else {
       // Skip animation if already seen
@@ -34,10 +35,12 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   }, [])
 
   return (
-    <div style={{
-      opacity: showContent ? 1 : 0,
-      transition: 'opacity 0.5s ease-in'
-    }}>
+    <div
+      style={{
+        opacity: showContent ? 1 : 0,
+        transition: showContent ? 'opacity 0.5s ease-in' : 'none'
+      }}
+    >
       {children}
     </div>
   )
