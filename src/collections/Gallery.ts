@@ -218,6 +218,89 @@ export const Gallery: CollectionConfig = {
           ],
         },
 
+        // Block 1c: Bulk Photo Upload - 3 Across
+        {
+          slug: 'photoBulk3Across',
+          labels: {
+            singular: 'Bulk Photos 3 Across',
+            plural: 'Bulk Photos 3 Across',
+          },
+          fields: [
+            {
+              name: 'images',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              hasMany: true,
+              admin: {
+                description: 'Upload multiple photos - displays in 3-column grid (full-width section)',
+              },
+            },
+            {
+              name: 'isFilmPhoto',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark all photos in this batch as film photographs',
+              },
+            },
+            {
+              name: 'filmType',
+              type: 'select',
+              options: [
+                {
+                  label: '35mm',
+                  value: '35mm',
+                },
+                {
+                  label: '645 Medium Format',
+                  value: '645',
+                },
+                {
+                  label: '6x6 Medium Format',
+                  value: '6x6',
+                },
+                {
+                  label: '6x7 Medium Format',
+                  value: '6x7',
+                },
+                {
+                  label: '6x9 Medium Format',
+                  value: '6x9',
+                },
+                {
+                  label: 'Large Format 4x5',
+                  value: '4x5',
+                },
+                {
+                  label: 'Large Format 8x10',
+                  value: '8x10',
+                },
+              ],
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film format used for all photos in this batch',
+              },
+            },
+            {
+              name: 'filmStock',
+              type: 'text',
+              admin: {
+                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
+              },
+            },
+            {
+              name: 'blackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Render all photos in this batch in black and white (grayscale filter)',
+              },
+            },
+          ],
+        },
+
         // Block 2: Featured Photo (Full Width with Optional Overlay)
         {
           slug: 'featuredPhoto',

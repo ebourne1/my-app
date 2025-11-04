@@ -242,6 +242,31 @@ export interface Gallery {
           }
         | {
             /**
+             * Upload multiple photos - displays in 3-column grid (full-width section)
+             */
+            images: (number | Media)[];
+            /**
+             * Mark all photos in this batch as film photographs
+             */
+            isFilmPhoto?: boolean | null;
+            /**
+             * Film format used for all photos in this batch
+             */
+            filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+            /**
+             * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
+             */
+            filmStock?: string | null;
+            /**
+             * Render all photos in this batch in black and white (grayscale filter)
+             */
+            blackAndWhite?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'photoBulk3Across';
+          }
+        | {
+            /**
              * Featured photo - displays full-width across the page
              */
             image: number | Media;
@@ -494,6 +519,17 @@ export interface GallerySelect<T extends boolean = true> {
               blockName?: T;
             };
         photoBulk?:
+          | T
+          | {
+              images?: T;
+              isFilmPhoto?: T;
+              filmType?: T;
+              filmStock?: T;
+              blackAndWhite?: T;
+              id?: T;
+              blockName?: T;
+            };
+        photoBulk3Across?:
           | T
           | {
               images?: T;

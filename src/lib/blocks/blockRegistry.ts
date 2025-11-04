@@ -14,6 +14,7 @@ import type { BlockConfig } from './types'
 import PhotoCard from '@/components/gallery/PhotoCard'
 import FeaturedPhoto from '@/components/gallery/FeaturedPhoto'
 import TextCard from '@/components/gallery/TextCard'
+import BulkPhotos3Across from '@/components/gallery/BulkPhotos3Across'
 
 /**
  * Block Registry - maps block types to their rendering configuration
@@ -43,6 +44,12 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
     slug: 'textCard',
     component: TextCard,
     layout: 'masonry',
+    priority: false,
+  },
+  photoBulk3Across: {
+    slug: 'photoBulk3Across',
+    component: BulkPhotos3Across,
+    layout: 'section-break',
     priority: false,
   },
 

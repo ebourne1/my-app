@@ -461,9 +461,9 @@ svg {
 
 .navbar-scrolled {
   padding: 12px 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgb(40, 40, 40);
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
 }
 
 .navbar-container {
@@ -516,6 +516,7 @@ svg {
   height: 80px;
   width: auto;
   transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 
   @media (max-width: 768px) {
     height: 60px;
@@ -524,6 +525,11 @@ svg {
   @media (max-width: 480px) {
     height: 50px;
   }
+}
+
+/* Enhanced drop shadow for center logo when scrolled */
+.navbar-scrolled .navbar-logo-image {
+  filter: drop-shadow(0 2px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 4px 24px rgba(0, 0, 0, 0.6)) drop-shadow(0 8px 32px rgba(0, 0, 0, 0.4));
 }
 
 .navbar-link {
@@ -552,6 +558,11 @@ svg {
     padding: 12px 15px;
     margin-top: 8px;
   }
+}
+
+/* Enhanced drop shadow for navbar items when scrolled */
+.navbar-scrolled .navbar-link {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navbar-link:hover {
@@ -652,6 +663,18 @@ svg {
   width: 100%;
   margin: 0 auto;
   margin-bottom: 2rem;
+}
+
+/* Bulk Photos 3 Across - Full-width section with 3-column grid */
+.bulk-photos-3-across {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.masonry-grid-3-across {
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Scroll Reveal Animations */
