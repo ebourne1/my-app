@@ -409,7 +409,7 @@ export const Gallery: CollectionConfig = {
                       name: 'fontColor',
                       type: 'text',
                       defaultValue: '#ffffff',
-                      validate: (val) => {
+                      validate: (val: string) => {
                         if (!val) return true
                         return /^#[0-9A-F]{6}$/i.test(val) || 'Must be a valid hex color (e.g., #ffffff)'
                       },
