@@ -760,6 +760,122 @@ svg {
   }
 }
 
+/* Mobile: Switch to flexbox layout for natural spacing */
+@media (max-width: 768px) {
+  .featured-overlay {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem; /* Natural gap between elements */
+    min-height: 100%; /* Ensure full height for positioning */
+  }
+
+  .overlay-text-container,
+  .overlay-button-container {
+    position: static !important; /* Remove absolute positioning */
+    transform: none !important; /* Remove transforms */
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .overlay-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally by default */
+  }
+
+  .overlay-button-container {
+    flex-shrink: 0; /* Don't shrink button */
+  }
+
+  /* GROUP ELEMENTS BY ZONE - Top zone elements */
+  .text-position-top,
+  .text-position-top-third {
+    order: -1;
+    margin-bottom: auto;
+  }
+
+  .button-position-top,
+  .button-position-top-third {
+    order: -1; /* Same order as top text - they group together */
+    margin-bottom: auto;
+  }
+
+  /* CENTER zone - default centered (will be overridden if grouped with bottom) */
+  .text-position-center {
+    order: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  /* BOTTOM zone - group bottom elements together */
+  .text-position-bottom-third,
+  .text-position-bottom {
+    order: 1;
+    margin-top: auto; /* Push the group down */
+    margin-bottom: 0;
+  }
+
+  .button-position-bottom-third,
+  .button-position-bottom {
+    order: 1; /* Same order as bottom text - they group together */
+    margin-top: 0; /* Don't push separately - follow the text */
+    margin-bottom: 0;
+  }
+
+  /* If button is at bottom zone but there's NO text, then button needs to push itself */
+  .featured-overlay:not(:has(.text-position-bottom-third, .text-position-bottom)) .button-position-bottom-third,
+  .featured-overlay:not(:has(.text-position-bottom-third, .text-position-bottom)) .button-position-bottom {
+    margin-top: auto;
+  }
+
+  /* CENTER + BOTTOM combination: when center text has bottom button, group together */
+  .featured-overlay:has(.button-position-bottom) .text-position-center,
+  .featured-overlay:has(.button-position-bottom-third) .text-position-center {
+    order: 1; /* Group with bottom button */
+    margin-top: auto;
+    margin-bottom: 0; /* Stay close to button */
+  }
+
+  /* When center text exists with bottom button, button follows text */
+  .featured-overlay:has(.text-position-center) .button-position-bottom-third,
+  .featured-overlay:has(.text-position-center) .button-position-bottom {
+    margin-top: 0; /* Don't push button separately, it follows the text */
+    margin-bottom: 0;
+  }
+
+  /* CENTER button alone stays centered */
+  .button-position-center {
+    order: 0;
+  }
+
+  /* Maintain horizontal text alignment preferences */
+  .text-align-left {
+    align-items: flex-start;
+  }
+
+  .text-align-center {
+    align-items: center;
+  }
+
+  .text-align-right {
+    align-items: flex-end;
+  }
+
+  /* Maintain horizontal button alignment preferences */
+  .button-align-left {
+    align-self: flex-start;
+  }
+
+  .button-align-center {
+    align-self: center;
+  }
+
+  .button-align-right {
+    align-self: flex-end;
+  }
+}
+
 .overlay-text-container {
   color: rgb(1000, 1000, 1000);
 }
