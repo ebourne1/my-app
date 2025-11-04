@@ -24,17 +24,11 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    // Only show animation on homepage if not seen yet
+    // Always show animation on homepage
     if (pathname === '/') {
-      const hasSeenAnimation = sessionStorage.getItem('hasSeenSignatureAnimation')
-      if (!hasSeenAnimation) {
-        setShowAnimation(true)
-        setHideNavLinks(true)
-        setShowStaticLogo(false)
-      } else {
-        setShowStaticLogo(true)
-        setHideNavLinks(false) // Show nav links immediately if animation already seen
-      }
+      setShowAnimation(true)
+      setHideNavLinks(true)
+      setShowStaticLogo(false)
     } else {
       setShowStaticLogo(true)
       setHideNavLinks(false)
@@ -56,8 +50,8 @@ export default function Navbar() {
           <Image
             src="/images/BBLOGOWT.png"
             alt="Britnee Bourne Photography"
-            width={240}
-            height={240}
+            width={480}
+            height={480}
             className="hero-logo-image"
             priority
           />

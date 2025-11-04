@@ -17,21 +17,12 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    // Check if user has already seen the animation this session
-    const hasSeenAnimation = sessionStorage.getItem('hasSeenSignatureAnimation')
-
-    if (!hasSeenAnimation) {
-      sessionStorage.setItem('hasSeenSignatureAnimation', 'true')
-
-      // Start fading in content at 2/3 animation completion (2130ms of 3200ms total)
-      const timer = setTimeout(() => {
-        setShowContent(true)
-      }, 2130)
-      return () => clearTimeout(timer)
-    } else {
-      // Skip animation if already seen
+    // Always play animation on homepage
+    // Start fading in content at 2/3 animation completion (2130ms of 3200ms total)
+    const timer = setTimeout(() => {
       setShowContent(true)
-    }
+    }, 2130)
+    return () => clearTimeout(timer)
   }, [])
 
   return (

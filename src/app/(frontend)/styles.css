@@ -411,8 +411,14 @@ svg {
   z-index: 999;
   transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   opacity: 1;
-  width: 240px;
-  height: 240px;
+  /* Large screens: 480px, scales down for mobile */
+  width: 480px;
+  height: 480px;
+
+  @media (max-width: 768px) {
+    width: 240px;
+    height: 240px;
+  }
 }
 
 .hero-logo-hidden {
@@ -422,15 +428,18 @@ svg {
 }
 
 .hero-logo-image {
-  height: 240px;
+  /* Desktop: 480px */
+  height: 480px;
   width: auto;
   filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
   transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 
+  /* Tablet and below: 160px (original mobile size) */
   @media (max-width: 768px) {
     height: 160px;
   }
 
+  /* Mobile: 120px (original mobile size) */
   @media (max-width: 480px) {
     height: 120px;
   }
@@ -1444,9 +1453,22 @@ svg {
 }
 
 .signature-svg-animated {
-  width: 240px;
-  height: 240px;
+  /* Desktop: 480px to match new hero logo size */
+  width: 480px;
+  height: 480px;
   filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+
+  /* Tablet and below: 160px to match mobile hero logo */
+  @media (max-width: 768px) {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* Mobile: 120px to match mobile hero logo */
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 .signature-svg-animated image {
