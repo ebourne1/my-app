@@ -240,85 +240,219 @@ export const Gallery: CollectionConfig = {
               type: 'checkbox',
               defaultValue: false,
               admin: {
-                description: 'Show overlay with text and call-to-action button',
+                description: 'Show overlay with text and/or buttons',
               },
             },
             {
-              name: 'overlayText',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ defaultFeatures }) => defaultFeatures,
-              }),
+              name: 'overlayContent',
+              type: 'blocks',
               admin: {
                 condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'Text displayed over the photo (headline, tagline, etc.)',
+                description: 'Add text blocks and buttons. Each can be positioned independently.',
               },
+              blocks: [
+                // Text Block
+                {
+                  slug: 'overlayText',
+                  labels: {
+                    singular: 'Text Block',
+                    plural: 'Text Blocks',
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'richText',
+                      required: true,
+                      editor: lexicalEditor({
+                        features: ({ defaultFeatures }) => defaultFeatures,
+                      }),
+                      admin: {
+                        description: 'Text content (headline, tagline, paragraph, etc.)',
+                      },
+                    },
+                    {
+                      name: 'alignment',
+                      type: 'select',
+                      defaultValue: 'center',
+                      options: [
+                        { label: '← Left', value: 'left' },
+                        { label: '↔ Center', value: 'center' },
+                        { label: '→ Right', value: 'right' },
+                      ],
+                      admin: {
+                        description: 'Horizontal alignment',
+                      },
+                    },
+                    {
+                      name: 'verticalPosition',
+                      type: 'select',
+                      defaultValue: 'center',
+                      options: [
+                        { label: '↑ Top', value: 'top' },
+                        { label: '⬆ Top Third', value: 'top-third' },
+                        { label: '↕ Middle', value: 'center' },
+                        { label: '⬇ Bottom Third', value: 'bottom-third' },
+                        { label: '↓ Bottom', value: 'bottom' },
+                      ],
+                      admin: {
+                        description: 'Vertical position',
+                      },
+                    },
+                    {
+                      name: 'width',
+                      type: 'select',
+                      defaultValue: 'medium',
+                      options: [
+                        { label: 'Small (33%)', value: 'small' },
+                        { label: 'Medium (50%)', value: 'medium' },
+                        { label: 'Large (66%)', value: 'large' },
+                        { label: 'Full Width', value: 'full' },
+                      ],
+                      admin: {
+                        description: 'Maximum width',
+                      },
+                    },
+                    {
+                      name: 'fontSize',
+                      type: 'number',
+                      defaultValue: 64,
+                      min: 24,
+                      max: 120,
+                      admin: {
+                        description: 'Font size in pixels (24-120)',
+                      },
+                    },
+                    {
+                      name: 'fontColor',
+                      type: 'text',
+                      defaultValue: '#ffffff',
+                      validate: (val) => {
+                        if (!val) return true
+                        return /^#[0-9A-F]{6}$/i.test(val) || 'Must be a valid hex color (e.g., #ffffff)'
+                      },
+                      admin: {
+                        description: 'Font color as hex code (e.g., #ffffff for white)',
+                      },
+                    },
+                    {
+                      name: 'lineHeight',
+                      type: 'select',
+                      defaultValue: 'normal',
+                      options: [
+                        { label: 'Tight (1.1)', value: 'tight' },
+                        { label: 'Normal (1.3)', value: 'normal' },
+                        { label: 'Relaxed (1.5)', value: 'relaxed' },
+                        { label: 'Loose (1.8)', value: 'loose' },
+                      ],
+                      admin: {
+                        description: 'Line spacing (use "Relaxed" or "Loose" for large fonts)',
+                      },
+                    },
+                    {
+                      name: 'fontFamily',
+                      type: 'select',
+                      defaultValue: 'lobster-two',
+                      options: [
+                        { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                        { label: 'Playfair Display', value: 'playfair' },
+                        { label: 'Bebas Neue', value: 'bebas' },
+                        { label: 'Inter', value: 'inter' },
+                      ],
+                      admin: {
+                        description: 'Font family',
+                      },
+                    },
+                    {
+                      name: 'textShadow',
+                      type: 'checkbox',
+                      defaultValue: true,
+                      admin: {
+                        description: 'Add shadow for better readability',
+                      },
+                    },
+                  ],
+                },
+                // Button Block
+                {
+                  slug: 'overlayButton',
+                  labels: {
+                    singular: 'Button',
+                    plural: 'Buttons',
+                  },
+                  fields: [
+                    {
+                      name: 'buttonText',
+                      type: 'text',
+                      required: true,
+                      admin: {
+                        description: 'Button text (e.g., "Contact Me", "Get Started")',
+                      },
+                    },
+                    {
+                      name: 'buttonLink',
+                      type: 'text',
+                      required: true,
+                      admin: {
+                        description: 'URL (e.g., "/contact", "mailto:email@example.com")',
+                      },
+                    },
+                    {
+                      name: 'alignment',
+                      type: 'select',
+                      defaultValue: 'center',
+                      options: [
+                        { label: '← Left', value: 'left' },
+                        { label: '↔ Center', value: 'center' },
+                        { label: '→ Right', value: 'right' },
+                      ],
+                      admin: {
+                        description: 'Horizontal alignment',
+                      },
+                    },
+                    {
+                      name: 'verticalPosition',
+                      type: 'select',
+                      defaultValue: 'bottom',
+                      options: [
+                        { label: '↑ Top', value: 'top' },
+                        { label: '⬆ Top Third', value: 'top-third' },
+                        { label: '↕ Middle', value: 'center' },
+                        { label: '⬇ Bottom Third', value: 'bottom-third' },
+                        { label: '↓ Bottom', value: 'bottom' },
+                      ],
+                      admin: {
+                        description: 'Vertical position',
+                      },
+                    },
+                  ],
+                },
+              ],
             },
             {
-              name: 'buttonText',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'Call-to-action button text (e.g., "Contact Me", "View Portfolio")',
-              },
-            },
-            {
-              name: 'buttonLink',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'URL for the button (e.g., "/contact", "mailto:email@example.com")',
-              },
-            },
-            {
-              name: 'fontFamily',
+              name: 'overlayIntensity',
               type: 'select',
-              defaultValue: 'lobster-two',
+              defaultValue: 'medium',
               options: [
                 {
-                  label: 'Lobster Two Bold Italic',
-                  value: 'lobster-two',
+                  label: 'None (Transparent)',
+                  value: 'none',
                 },
                 {
-                  label: 'Playfair Display',
-                  value: 'playfair',
+                  label: 'Light',
+                  value: 'light',
                 },
                 {
-                  label: 'Bebas Neue',
-                  value: 'bebas',
+                  label: 'Medium',
+                  value: 'medium',
                 },
                 {
-                  label: 'Inter',
-                  value: 'inter',
+                  label: 'Heavy',
+                  value: 'heavy',
                 },
               ],
               admin: {
                 condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'Font family for overlay text',
-              },
-            },
-            {
-              name: 'fontSize',
-              type: 'number',
-              defaultValue: 64,
-              min: 24,
-              max: 120,
-              admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'Font size in pixels (24-120)',
-              },
-            },
-            {
-              name: 'fontColor',
-              type: 'text',
-              defaultValue: '#ffffff',
-              validate: (val) => {
-                if (!val) return true
-                return /^#[0-9A-F]{6}$/i.test(val) || 'Must be a valid hex color (e.g., #ffffff)'
-              },
-              admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
-                description: 'Font color as hex code (e.g., #ffffff for white)',
+                description: 'Darkness of the background overlay for text readability',
               },
             },
           ],

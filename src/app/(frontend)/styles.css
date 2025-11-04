@@ -15,8 +15,10 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
-html,
-body,
+html {
+  min-height: 100%;
+}
+
 #app {
   height: 100%;
 }
@@ -25,7 +27,7 @@ body {
   font-family: system-ui;
   font-size: 18px;
   line-height: 32px;
-
+  min-height: 100vh;
   margin: 0;
   color: rgb(1000, 1000, 1000);
   position: relative;
@@ -42,42 +44,101 @@ body::before {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
+  min-height: 100%;
   background:
+    /* TOP SECTION - Original hero pattern (0-15% of 2400px cycle) */
     /* Main orange leak from top left */
     radial-gradient(
-      ellipse 800px 600px at 15% -10%,
-      rgba(255, 120, 40, 0.38) 0%,
-      rgba(255, 100, 20, 0.22) 20%,
-      transparent 50%
+      ellipse 800px 600px at 15% 4%,
+      rgba(255, 120, 40, 0.22) 0%,
+      rgba(255, 100, 20, 0.12) 20%,
+      rgba(255, 100, 20, 0.04) 40%,
+      transparent 65%
     ),
     /* Blue-teal accent top right */
     radial-gradient(
-      ellipse 600px 700px at 85% -5%,
-      rgba(80, 140, 200, 0.3) 0%,
-      rgba(60, 120, 180, 0.16) 25%,
-      transparent 55%
+      ellipse 600px 700px at 85% 3%,
+      rgba(80, 140, 200, 0.18) 0%,
+      rgba(60, 120, 180, 0.09) 25%,
+      rgba(60, 120, 180, 0.03) 45%,
+      transparent 70%
     ),
     /* Subtle orange center */
     radial-gradient(
-      ellipse 700px 500px at 50% 5%,
-      rgba(255, 140, 60, 0.28) 0%,
-      rgba(255, 100, 40, 0.14) 30%,
-      transparent 60%
+      ellipse 700px 500px at 50% 6%,
+      rgba(255, 140, 60, 0.16) 0%,
+      rgba(255, 100, 40, 0.08) 30%,
+      rgba(255, 100, 40, 0.02) 50%,
+      transparent 75%
     ),
     /* Small blue accent */
     radial-gradient(
-      circle at 70% 15%,
-      rgba(100, 150, 220, 0.22),
-      transparent 40%
+      circle at 70% 8%,
+      rgba(100, 150, 220, 0.12) 0%,
+      rgba(100, 150, 220, 0.04) 25%,
+      transparent 50%
     ),
     /* Subtle warm glow */
     radial-gradient(
-      ellipse 500px 400px at 30% 8%,
-      rgba(255, 150, 80, 0.18),
+      ellipse 500px 400px at 30% 5%,
+      rgba(255, 150, 80, 0.1) 0%,
+      rgba(255, 150, 80, 0.03) 30%,
+      transparent 60%
+    ),
+
+    /* MIDDLE SECTION - Variation 1 (30-45% of cycle) */
+    /* Gentle blue-teal from left */
+    radial-gradient(
+      ellipse 600px 500px at 10% 35%,
+      rgba(60, 120, 180, 0.14) 0%,
+      rgba(80, 140, 200, 0.07) 25%,
+      rgba(80, 140, 200, 0.02) 45%,
+      transparent 65%
+    ),
+    /* Soft orange from right */
+    radial-gradient(
+      ellipse 550px 450px at 90% 38%,
+      rgba(255, 130, 50, 0.15) 0%,
+      rgba(255, 110, 30, 0.08) 30%,
+      rgba(255, 110, 30, 0.02) 50%,
+      transparent 70%
+    ),
+    /* Center accent */
+    radial-gradient(
+      circle at 45% 37%,
+      rgba(100, 150, 220, 0.1) 0%,
+      rgba(100, 150, 220, 0.03) 20%,
       transparent 45%
+    ),
+
+    /* LOWER SECTION - Variation 2 (60-75% of cycle) */
+    /* Orange warmth from bottom left */
+    radial-gradient(
+      ellipse 700px 550px at 20% 65%,
+      rgba(255, 140, 60, 0.16) 0%,
+      rgba(255, 120, 40, 0.08) 25%,
+      rgba(255, 120, 40, 0.02) 45%,
+      transparent 70%
+    ),
+    /* Blue-teal from bottom right */
+    radial-gradient(
+      ellipse 650px 600px at 80% 68%,
+      rgba(80, 140, 200, 0.15) 0%,
+      rgba(60, 120, 180, 0.08) 30%,
+      rgba(60, 120, 180, 0.02) 50%,
+      transparent 75%
+    ),
+    /* Subtle center glow */
+    radial-gradient(
+      ellipse 500px 400px at 55% 67%,
+      rgba(255, 150, 80, 0.11) 0%,
+      rgba(255, 150, 80, 0.03) 25%,
+      transparent 50%
     );
+  background-size: 100% 2400px;
+  background-repeat: repeat-y;
   mix-blend-mode: screen;
   pointer-events: none;
   opacity: 0.85;
@@ -604,13 +665,25 @@ svg {
   right: 0;
   bottom: 0;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+/* Independent positioning containers */
+.overlay-text-container,
+.overlay-button-container {
+  position: absolute;
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.overlay-text-container {
+  color: rgb(1000, 1000, 1000);
 }
 
 .overlay-content {
+  /* Legacy - keeping for backwards compatibility */
   text-align: center;
   max-width: 800px;
   color: rgb(1000, 1000, 1000);
@@ -676,6 +749,170 @@ svg {
   &:active {
     transform: translateY(0);
   }
+}
+
+/* Featured Photo Independent Positioning Controls */
+
+/* Text horizontal alignment */
+.text-align-left {
+  left: 0;
+  right: auto;
+  text-align: left;
+}
+
+.text-align-center {
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.text-align-right {
+  left: auto;
+  right: 0;
+  text-align: right;
+}
+
+/* Text vertical position */
+.text-position-top {
+  top: 5rem;
+  bottom: auto;
+}
+
+.text-position-top-third {
+  top: 33.33%;
+  bottom: auto;
+}
+
+.text-position-center {
+  top: 50%;
+  bottom: auto;
+}
+
+.text-position-bottom-third {
+  top: 66.67%;
+  bottom: auto;
+}
+
+.text-position-bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.text-position-top.text-align-center,
+.text-position-top-third.text-align-center,
+.text-position-center.text-align-center,
+.text-position-bottom-third.text-align-center,
+.text-position-bottom.text-align-center {
+  transform: translate(-50%, 0);
+}
+
+.text-position-center.text-align-center {
+  transform: translate(-50%, -50%);
+}
+
+/* Text width */
+.text-width-small {
+  max-width: 400px;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
+}
+
+.text-width-medium {
+  max-width: 600px;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
+}
+
+.text-width-large {
+  max-width: 900px;
+
+  @media (max-width: 768px) {
+    max-width: 95%;
+  }
+}
+
+.text-width-full {
+  max-width: 100%;
+  width: calc(100% - 4rem);
+
+  @media (max-width: 768px) {
+    width: calc(100% - 3rem);
+  }
+}
+
+/* Button horizontal alignment */
+.button-align-left {
+  left: 0;
+  right: auto;
+}
+
+.button-align-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.button-align-right {
+  left: auto;
+  right: 0;
+}
+
+/* Button vertical position */
+.button-position-top {
+  top: 0;
+  bottom: auto;
+}
+
+.button-position-top-third {
+  top: 33.33%;
+  bottom: auto;
+}
+
+.button-position-center {
+  top: 50%;
+  bottom: auto;
+}
+
+.button-position-bottom-third {
+  top: 66.67%;
+  bottom: auto;
+}
+
+.button-position-bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.button-position-top.button-align-center,
+.button-position-top-third.button-align-center,
+.button-position-center.button-align-center,
+.button-position-bottom-third.button-align-center,
+.button-position-bottom.button-align-center {
+  transform: translate(-50%, 0);
+}
+
+.button-position-center.button-align-center {
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay intensity */
+.overlay-intensity-none {
+  background: transparent;
+}
+
+.overlay-intensity-light {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+}
+
+.overlay-intensity-medium {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+}
+
+.overlay-intensity-heavy {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));
 }
 
 /* Text Card */

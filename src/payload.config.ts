@@ -35,7 +35,10 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   // database-adapter-config-start
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  db: sqliteD1Adapter({
+    binding: cloudflare.env.D1,
+    push: true, // Temporarily enabled to fix schema issues
+  }),
   // database-adapter-config-end
   plugins: [
     // storage-adapter-placeholder

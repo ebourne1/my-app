@@ -246,47 +246,96 @@ export interface Gallery {
              */
             image: number | Media;
             /**
-             * Show overlay with text and call-to-action button
+             * Show overlay with text and/or buttons
              */
             enableOverlay?: boolean | null;
             /**
-             * Text displayed over the photo (headline, tagline, etc.)
+             * Add text blocks and buttons. Each can be positioned independently.
              */
-            overlayText?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
+            overlayContent?:
+              | (
+                  | {
+                      /**
+                       * Text content (headline, tagline, paragraph, etc.)
+                       */
+                      text: {
+                        root: {
+                          type: string;
+                          children: {
+                            type: any;
+                            version: number;
+                            [k: string]: unknown;
+                          }[];
+                          direction: ('ltr' | 'rtl') | null;
+                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                          indent: number;
+                          version: number;
+                        };
+                        [k: string]: unknown;
+                      };
+                      /**
+                       * Horizontal alignment
+                       */
+                      alignment?: ('left' | 'center' | 'right') | null;
+                      /**
+                       * Vertical position
+                       */
+                      verticalPosition?: ('top' | 'top-third' | 'center' | 'bottom-third' | 'bottom') | null;
+                      /**
+                       * Maximum width
+                       */
+                      width?: ('small' | 'medium' | 'large' | 'full') | null;
+                      /**
+                       * Font size in pixels (24-120)
+                       */
+                      fontSize?: number | null;
+                      /**
+                       * Font color as hex code (e.g., #ffffff for white)
+                       */
+                      fontColor?: string | null;
+                      /**
+                       * Line spacing (use "Relaxed" or "Loose" for large fonts)
+                       */
+                      lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
+                      /**
+                       * Font family
+                       */
+                      fontFamily?: ('lobster-two' | 'playfair' | 'bebas' | 'inter') | null;
+                      /**
+                       * Add shadow for better readability
+                       */
+                      textShadow?: boolean | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'overlayText';
+                    }
+                  | {
+                      /**
+                       * Button text (e.g., "Contact Me", "Get Started")
+                       */
+                      buttonText: string;
+                      /**
+                       * URL (e.g., "/contact", "mailto:email@example.com")
+                       */
+                      buttonLink: string;
+                      /**
+                       * Horizontal alignment
+                       */
+                      alignment?: ('left' | 'center' | 'right') | null;
+                      /**
+                       * Vertical position
+                       */
+                      verticalPosition?: ('top' | 'top-third' | 'center' | 'bottom-third' | 'bottom') | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'overlayButton';
+                    }
+                )[]
+              | null;
             /**
-             * Call-to-action button text (e.g., "Contact Me", "View Portfolio")
+             * Darkness of the background overlay for text readability
              */
-            buttonText?: string | null;
-            /**
-             * URL for the button (e.g., "/contact", "mailto:email@example.com")
-             */
-            buttonLink?: string | null;
-            /**
-             * Font family for overlay text
-             */
-            fontFamily?: ('lobster-two' | 'playfair' | 'bebas' | 'inter') | null;
-            /**
-             * Font size in pixels (24-120)
-             */
-            fontSize?: number | null;
-            /**
-             * Font color as hex code (e.g., #ffffff for white)
-             */
-            fontColor?: string | null;
+            overlayIntensity?: ('none' | 'light' | 'medium' | 'heavy') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'featuredPhoto';
@@ -460,12 +509,36 @@ export interface GallerySelect<T extends boolean = true> {
           | {
               image?: T;
               enableOverlay?: T;
-              overlayText?: T;
-              buttonText?: T;
-              buttonLink?: T;
-              fontFamily?: T;
-              fontSize?: T;
-              fontColor?: T;
+              overlayContent?:
+                | T
+                | {
+                    overlayText?:
+                      | T
+                      | {
+                          text?: T;
+                          alignment?: T;
+                          verticalPosition?: T;
+                          width?: T;
+                          fontSize?: T;
+                          fontColor?: T;
+                          lineHeight?: T;
+                          fontFamily?: T;
+                          textShadow?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    overlayButton?:
+                      | T
+                      | {
+                          buttonText?: T;
+                          buttonLink?: T;
+                          alignment?: T;
+                          verticalPosition?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              overlayIntensity?: T;
               id?: T;
               blockName?: T;
             };
