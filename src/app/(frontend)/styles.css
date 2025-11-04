@@ -638,35 +638,11 @@ svg {
   color: rgb(150, 150, 150);
 }
 
-/* Masonry Section - react-masonry-css */
+/* Masonry Section - MUI Masonry */
 .masonry-grid {
-  display: flex;
-  margin-left: -1.5rem; /* Gutter size offset */
-  width: auto;
+  width: 100%;
+  margin: 0 auto;
   margin-bottom: 2rem;
-}
-
-.masonry-grid-column {
-  padding-left: 1.5rem; /* Gutter size */
-  background-clip: padding-box;
-}
-
-.masonry-grid-column > * {
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 1023px) {
-  .masonry-grid {
-    margin-left: 0;
-  }
-
-  .masonry-grid-column {
-    padding-left: 0;
-  }
-
-  .masonry-grid-column > * {
-    margin-bottom: 1rem;
-  }
 }
 
 /* Scroll Reveal Animations */

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Masonry from 'react-masonry-css'
+import Masonry from '@mui/lab/Masonry'
 import { BLOCK_REGISTRY } from '@/lib/blocks/blockRegistry'
 import PhotoModal from './PhotoModal'
 import type { Media } from '@/payload-types'
@@ -14,14 +14,17 @@ interface MasonrySectionProps {
  * MasonrySection Component (Client Component)
  *
  * Renders a section of items in a masonry grid layout (2 columns on desktop, 1 on mobile).
+ * Uses MUI Masonry with height-based column balancing for optimal layout.
  * Uses the block registry to dynamically render each item's component.
  *
  * Key Features:
+ * - Height-based column balancing (items placed in shortest column)
  * - No hardcoded component types - uses registry lookup
  * - Supports any block type with layout: 'masonry'
  * - Automatically handles priority loading for above-fold images (first 4 items)
  * - Gracefully handles unknown block types
  * - Photo lightbox/modal for clicking photos to view larger
+ * - photoBulk blocks automatically flattened into individual photos
  */
 export default function MasonrySection({ items }: MasonrySectionProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<{
@@ -50,12 +53,6 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
     setSelectedPhoto(null)
   }
 
-  // Breakpoint configuration for react-masonry-css
-  const breakpointColumns = {
-    default: 2, // 2 columns on desktop
-    1023: 1, // 1 column on tablets and below
-  }
-
   // Flatten photoBulk blocks into individual items for proper masonry distribution
   const flattenedItems = items.flatMap((item) => {
     // If it's a photoBulk block, expand it into individual photo items
@@ -75,9 +72,9 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
   return (
     <>
       <Masonry
-        breakpointCols={breakpointColumns}
+        columns={{ xs: 1, sm: 1, md: 2 }}
+        spacing={{ xs: 1.5, sm: 1.5, md: 1.5 }}
         className="masonry-grid"
-        columnClassName="masonry-grid-column"
       >
         {flattenedItems.map((item, index) => {
           const config = BLOCK_REGISTRY[item.blockType]
