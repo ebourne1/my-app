@@ -1115,10 +1115,15 @@ svg {
 
 /* Text Card */
 .text-card {
-  margin: 2rem 0;
+  margin-bottom: 1.5rem;
   padding: 3rem 2rem;
   border-radius: 12px;
   width: 100%;
+  break-inside: avoid; /* Prevent breaking across columns */
+
+  @media (max-width: 1023px) {
+    margin-bottom: 1rem;
+  }
 
   @media (max-width: 768px) {
     padding: 2rem 1.5rem;
