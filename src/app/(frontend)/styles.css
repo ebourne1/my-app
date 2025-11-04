@@ -580,7 +580,7 @@ svg {
 
 /* First featured photo - reduced top margin */
 .gallery-container > .featured-photo:first-child {
-  margin-top: 1.25rem;
+  margin-top: .25rem;
 }
 
 .featured-photo-wrapper {

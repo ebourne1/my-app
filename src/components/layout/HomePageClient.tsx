@@ -23,10 +23,10 @@ export default function HomePageClient({ children }: HomePageClientProps) {
     if (!hasSeenAnimation) {
       sessionStorage.setItem('hasSeenSignatureAnimation', 'true')
 
-      // Wait for animation to complete before showing content
+      // Start fading in content at 2/3 animation completion (2130ms of 3200ms total)
       const timer = setTimeout(() => {
         setShowContent(true)
-      }, 3200)
+      }, 2130)
       return () => clearTimeout(timer)
     } else {
       // Skip animation if already seen
