@@ -293,29 +293,56 @@ export function splitIntoSections(blocks: any[]): Section[] {
 #### 4. **MasonrySection.tsx** (Client Component)
 **Path:** `src/components/gallery/MasonrySection.tsx`
 
-**Purpose:** Renders masonry grid sections with 2-column layout
+**Purpose:** Renders masonry grid sections with 2-column layout using react-masonry-css
 
 **Features:**
+- Uses **react-masonry-css** for intelligent column distribution
+- **Flattens photoBulk blocks** into individual items for proper balance
 - Uses block registry for dynamic component rendering
 - Priority loading for first 4 items (above-fold)
 - Photo modal/lightbox integration
-- Mobile: 1 column, Desktop: 2 columns (CSS Grid)
+- Mobile: 1 column, Desktop: 2 columns
+
+**Key Implementation Details:**
+
+1. **photoBulk Flattening**: Before passing items to Masonry, photoBulk blocks are expanded into individual photo items so masonry can distribute them properly across columns.
+
+2. **Round-robin Distribution**: react-masonry-css distributes items sequentially across columns, ensuring better balance than CSS columns.
 
 **Key Code:**
 ```typescript
 export default function MasonrySection({ items }: MasonrySectionProps) {
   const [selectedPhoto, setSelectedPhoto] = useState(null)
 
-  const handlePhotoClick = (photo) => {
-    // Disable on mobile (< 768px)
-    if (window.innerWidth < 768) return
-    setSelectedPhoto(photo)
+  // Flatten photoBulk blocks into individual items for proper masonry distribution
+  const flattenedItems = items.flatMap((item) => {
+    // If it's a photoBulk block, expand it into individual photo items
+    if (item.blockType === 'photoBulk' && item.images) {
+      return item.images.map((image: any, idx: number) => ({
+        ...item,
+        blockType: 'photo', // Treat as individual photo
+        image: image,
+        images: undefined, // Remove images array
+        id: `${item.id}-${idx}`, // Unique ID for each expanded image
+      }))
+    }
+    // Otherwise return the item as-is
+    return [item]
+  })
+
+  const breakpointColumns = {
+    default: 2, // 2 columns on desktop
+    1023: 1, // 1 column on tablets and below
   }
 
   return (
     <>
-      <div className="masonry-section">
-        {items.map((item, index) => {
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className="masonry-grid"
+        columnClassName="masonry-grid-column"
+      >
+        {flattenedItems.map((item, index) => {
           const config = BLOCK_REGISTRY[item.blockType]
           const BlockComponent = config.component
           const priority = index < 4 // First 4 get priority
@@ -325,11 +352,11 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
               key={item.id}
               block={item}
               priority={priority}
-              onPhotoClick={handlePhotoClick} // For photos
+              onPhotoClick={handlePhotoClick}
             />
           )
         })}
-      </div>
+      </Masonry>
 
       <PhotoModal
         isOpen={!!selectedPhoto}
@@ -343,20 +370,34 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
 
 **CSS (styles.css):**
 ```css
-.masonry-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
-  gap: 20px;
-  max-width: 1400px;
-  margin: 60px auto;
-  padding: 0 40px;
+/* Masonry Section - react-masonry-css */
+.masonry-grid {
+  display: flex;
+  margin-left: -1.5rem; /* Gutter size offset */
+  width: auto;
+  margin-bottom: 2rem;
 }
 
-@media (max-width: 768px) {
-  .masonry-section {
-    grid-template-columns: 1fr; /* 1 column on mobile */
-    gap: 16px;
-    padding: 0 20px;
+.masonry-grid-column {
+  padding-left: 1.5rem; /* Gutter size */
+  background-clip: padding-box;
+}
+
+.masonry-grid-column > * {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+  .masonry-grid {
+    margin-left: 0;
+  }
+
+  .masonry-grid-column {
+    padding-left: 0;
+  }
+
+  .masonry-grid-column > * {
+    margin-bottom: 1rem;
   }
 }
 ```

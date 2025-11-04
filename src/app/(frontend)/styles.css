@@ -638,15 +638,34 @@ svg {
   color: rgb(150, 150, 150);
 }
 
-/* Masonry Section */
-.masonry-section {
-  column-count: 2;
-  column-gap: 1.5rem;
+/* Masonry Section - react-masonry-css */
+.masonry-grid {
+  display: flex;
+  margin-left: -1.5rem; /* Gutter size offset */
+  width: auto;
   margin-bottom: 2rem;
+}
 
-  @media (max-width: 1023px) {
-    column-count: 1;
-    column-gap: 0;
+.masonry-grid-column {
+  padding-left: 1.5rem; /* Gutter size */
+  background-clip: padding-box;
+}
+
+.masonry-grid-column > * {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+  .masonry-grid {
+    margin-left: 0;
+  }
+
+  .masonry-grid-column {
+    padding-left: 0;
+  }
+
+  .masonry-grid-column > * {
+    margin-bottom: 1rem;
   }
 }
 
@@ -678,12 +697,6 @@ svg {
   overflow: hidden;
   border-radius: 8px;
   background: rgb(20, 20, 20);
-  break-inside: avoid; /* Prevents images from breaking across columns */
-  margin-bottom: 1.5rem;
-
-  @media (max-width: 1023px) {
-    margin-bottom: 1rem;
-  }
 }
 
 .photo-wrapper {
@@ -1115,15 +1128,9 @@ svg {
 
 /* Text Card */
 .text-card {
-  margin-bottom: 1.5rem;
   padding: 3rem 2rem;
   border-radius: 12px;
   width: 100%;
-  break-inside: avoid; /* Prevent breaking across columns */
-
-  @media (max-width: 1023px) {
-    margin-bottom: 1rem;
-  }
 
   @media (max-width: 768px) {
     padding: 2rem 1.5rem;

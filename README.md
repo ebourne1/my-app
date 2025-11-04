@@ -224,11 +224,12 @@ The gallery uses a **configuration-based block registry** for extensibility:
 
 ### Masonry Layout
 
-Uses **CSS Columns** for true masonry behavior:
-- Items flow naturally in columns
+Uses **react-masonry-css** for intelligent column distribution:
+- Items distributed round-robin across columns for balance
 - Maintains aspect ratios without stretching
-- No JavaScript required
+- photoBulk blocks automatically flattened into individual items
 - Responsive: 2 columns (desktop) → 1 column (mobile)
+- True masonry behavior with natural item flow
 
 ### Image Optimization
 

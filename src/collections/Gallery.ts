@@ -262,7 +262,7 @@ export const Gallery: CollectionConfig = {
                     {
                       name: 'text',
                       type: 'richText',
-                      required: true,
+                      required: false,
                       editor: lexicalEditor({
                         features: ({ defaultFeatures }) => defaultFeatures,
                       }),

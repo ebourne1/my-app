@@ -258,7 +258,7 @@ export interface Gallery {
                       /**
                        * Text content (headline, tagline, paragraph, etc.)
                        */
-                      text: {
+                      text?: {
                         root: {
                           type: string;
                           children: {
@@ -272,7 +272,7 @@ export interface Gallery {
                           version: number;
                         };
                         [k: string]: unknown;
-                      };
+                      } | null;
                       /**
                        * Horizontal alignment
                        */
