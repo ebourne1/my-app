@@ -574,12 +574,13 @@ svg {
 
 /* Featured Photo */
 .featured-photo {
-  margin: 3rem 0;
+  margin: 2rem 0;
   width: 100%;
+}
 
-  @media (max-width: 768px) {
-    margin: 2rem 0;
-  }
+/* First featured photo - reduced top margin */
+.gallery-container > .featured-photo:first-child {
+  margin-top: 1.25rem;
 }
 
 .featured-photo-wrapper {
@@ -679,13 +680,12 @@ svg {
 
 /* Text Card */
 .text-card {
-  margin: 3rem 0;
+  margin: 2rem 0;
   padding: 3rem 2rem;
   border-radius: 12px;
   width: 100%;
 
   @media (max-width: 768px) {
-    margin: 2rem 0;
     padding: 2rem 1.5rem;
   }
 }
