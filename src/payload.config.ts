@@ -44,7 +44,22 @@ export default buildConfig({
     // storage-adapter-placeholder
     r2Storage({
       bucket: cloudflare.env.R2,
-      collections: { media: true },
+      collections: {
+        media: {
+          // Enable direct R2 URLs instead of proxied URLs through Payload
+          disablePayloadAccessControl: true,
+          // Generate public R2 URLs for Cloudinary access
+          generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) => {
+            return [
+              'https://pub-d659efaed4444e63acad9644f15a6b51.r2.dev',
+              prefix,
+              filename,
+            ]
+              .filter(Boolean)
+              .join('/')
+          },
+        },
+      },
     }),
   ],
 })

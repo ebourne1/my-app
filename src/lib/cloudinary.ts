@@ -55,16 +55,16 @@ export function getCloudinaryUrl(options: CloudinaryOptions): string {
     return ''
   }
 
-  // In dev mode, if image URL is a relative path (starts with /), skip Cloudinary
-  // and return the original URL since Cloudinary can't fetch from localhost
+  // If image URL is a relative path (starts with /), skip Cloudinary
+  // This indicates R2 disablePayloadAccessControl is not enabled
   if (imageUrl.startsWith('/')) {
-    console.warn('Skipping Cloudinary transformation in dev mode for relative URL:', imageUrl)
+    console.error(
+      'Cannot apply Cloudinary transformation: Image URL is relative instead of R2 public URL.',
+      '\nCheck that disablePayloadAccessControl: true is set in payload.config.ts',
+      '\nURL:', imageUrl
+    )
     return imageUrl
   }
-
-  // If no film border is applied and it's just optimization,
-  // you might want to skip Cloudinary in dev for performance
-  // But for production, images should have full R2 URLs
 
   // Start building transformation string
   const transformations: string[] = []
