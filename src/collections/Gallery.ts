@@ -112,7 +112,7 @@ export const Gallery: CollectionConfig = {
                 },
               ],
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film format used for this photograph',
               },
             },
@@ -120,7 +120,7 @@ export const Gallery: CollectionConfig = {
               name: 'filmStock',
               type: 'text',
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
               },
             },
@@ -155,7 +155,7 @@ export const Gallery: CollectionConfig = {
               ],
               defaultValue: '1',
               admin: {
-                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
                 description: 'Select which film border design to apply (1-8)',
               },
             },
@@ -222,7 +222,7 @@ export const Gallery: CollectionConfig = {
                 },
               ],
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film format used for all photos in this batch',
               },
             },
@@ -230,7 +230,7 @@ export const Gallery: CollectionConfig = {
               name: 'filmStock',
               type: 'text',
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
               },
             },
@@ -265,7 +265,7 @@ export const Gallery: CollectionConfig = {
               ],
               defaultValue: '1',
               admin: {
-                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
                 description: 'Select which film border design to apply to all photos (1-8)',
               },
             },
@@ -332,7 +332,7 @@ export const Gallery: CollectionConfig = {
                 },
               ],
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film format used for all photos in this batch',
               },
             },
@@ -340,7 +340,7 @@ export const Gallery: CollectionConfig = {
               name: 'filmStock',
               type: 'text',
               admin: {
-                condition: (data, siblingData) => siblingData?.isFilmPhoto === true,
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
                 description: 'Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")',
               },
             },
@@ -375,7 +375,7 @@ export const Gallery: CollectionConfig = {
               ],
               defaultValue: '1',
               admin: {
-                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
                 description: 'Select which film border design to apply to all photos (1-8)',
               },
             },
@@ -411,7 +411,7 @@ export const Gallery: CollectionConfig = {
               name: 'overlayContent',
               type: 'blocks',
               admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
+                condition: (_data, siblingData) => siblingData?.enableOverlay === true,
                 description: 'Add text blocks and buttons. Each can be positioned independently.',
               },
               blocks: [
@@ -615,7 +615,7 @@ export const Gallery: CollectionConfig = {
                 },
               ],
               admin: {
-                condition: (data, siblingData) => siblingData?.enableOverlay === true,
+                condition: (_data, siblingData) => siblingData?.enableOverlay === true,
                 description: 'Darkness of the background overlay for text readability',
               },
             },
@@ -650,7 +650,7 @@ export const Gallery: CollectionConfig = {
               ],
               defaultValue: '1',
               admin: {
-                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
                 description: 'Select which film border design to apply (1-8)',
               },
             },

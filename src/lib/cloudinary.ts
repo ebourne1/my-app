@@ -55,6 +55,17 @@ export function getCloudinaryUrl(options: CloudinaryOptions): string {
     return ''
   }
 
+  // In dev mode, if image URL is a relative path (starts with /), skip Cloudinary
+  // and return the original URL since Cloudinary can't fetch from localhost
+  if (imageUrl.startsWith('/')) {
+    console.warn('Skipping Cloudinary transformation in dev mode for relative URL:', imageUrl)
+    return imageUrl
+  }
+
+  // If no film border is applied and it's just optimization,
+  // you might want to skip Cloudinary in dev for performance
+  // But for production, images should have full R2 URLs
+
   // Start building transformation string
   const transformations: string[] = []
 

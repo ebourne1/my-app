@@ -233,13 +233,13 @@ export interface Gallery {
              */
             blackAndWhite?: boolean | null;
             /**
-             * Apply a film border overlay to this photo (requires running border processing script)
+             * Apply a film border overlay to this photo
              */
             applyFilmBorder?: boolean | null;
             /**
              * Select which film border design to apply (1-8)
              */
-            filmBorderNumber?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) | null;
+            filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photo';
@@ -266,13 +266,13 @@ export interface Gallery {
              */
             blackAndWhite?: boolean | null;
             /**
-             * Apply a film border overlay to all photos in this batch (requires running border processing script)
+             * Apply a film border overlay to all photos in this batch
              */
             applyFilmBorder?: boolean | null;
             /**
              * Select which film border design to apply to all photos (1-8)
              */
-            filmBorderNumber?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) | null;
+            filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photoBulk';
@@ -299,13 +299,13 @@ export interface Gallery {
              */
             blackAndWhite?: boolean | null;
             /**
-             * Apply a film border overlay to all photos in this batch (requires running border processing script)
+             * Apply a film border overlay to all photos in this batch
              */
             applyFilmBorder?: boolean | null;
             /**
              * Select which film border design to apply to all photos (1-8)
              */
-            filmBorderNumber?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) | null;
+            filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'photoBulk3Across';
@@ -406,6 +406,18 @@ export interface Gallery {
              * Darkness of the background overlay for text readability
              */
             overlayIntensity?: ('none' | 'light' | 'medium' | 'heavy') | null;
+            /**
+             * Render this photo in black and white (grayscale filter)
+             */
+            blackAndWhite?: boolean | null;
+            /**
+             * Apply a film border overlay to this photo
+             */
+            applyFilmBorder?: boolean | null;
+            /**
+             * Select which film border design to apply (1-8)
+             */
+            filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'featuredPhoto';
@@ -634,6 +646,9 @@ export interface GallerySelect<T extends boolean = true> {
                         };
                   };
               overlayIntensity?: T;
+              blackAndWhite?: T;
+              applyFilmBorder?: T;
+              filmBorderNumber?: T;
               id?: T;
               blockName?: T;
             };

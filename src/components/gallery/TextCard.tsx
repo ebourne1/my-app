@@ -118,7 +118,7 @@ function RichTextRenderer({ data }: { data: any }) {
 
         // Handle heading nodes
         if (node.type === 'heading') {
-          const HeadingTag = `h${node.tag}` as keyof JSX.IntrinsicElements
+          const HeadingTag = `h${node.tag}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
           return (
             <HeadingTag key={index}>
               {node.children?.map((child: any) => child.text).join('')}
