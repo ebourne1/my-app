@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
+import { getCloudinaryUrl } from '@/lib/cloudinary'
 
 interface PhotoCardProps {
   block: {
@@ -14,6 +15,8 @@ interface PhotoCardProps {
     filmType?: string
     filmStock?: string
     blackAndWhite?: boolean
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
   }
   priority?: boolean
   onPhotoClick?: (photo: {
@@ -22,6 +25,9 @@ interface PhotoCardProps {
     isFilmPhoto?: boolean
     filmType?: string
     filmStock?: string
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
+    blackAndWhite?: boolean
   }) => void
 }
 
@@ -55,6 +61,8 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
               caption={undefined} // Bulk photos don't have captions
               priority={priority && idx === 0} // Only first bulk image gets priority
               blackAndWhite={block.blackAndWhite}
+              applyFilmBorder={block.applyFilmBorder}
+              filmBorderNumber={block.filmBorderNumber}
               onClick={
                 onPhotoClick
                   ? () =>
@@ -64,6 +72,9 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
                         isFilmPhoto: block.isFilmPhoto,
                         filmType: block.filmType,
                         filmStock: block.filmStock,
+                        applyFilmBorder: block.applyFilmBorder,
+                        filmBorderNumber: block.filmBorderNumber,
+                        blackAndWhite: block.blackAndWhite,
                       })
                   : undefined
               }
@@ -84,6 +95,8 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
       caption={block.caption}
       priority={priority}
       blackAndWhite={block.blackAndWhite}
+      applyFilmBorder={block.applyFilmBorder}
+      filmBorderNumber={block.filmBorderNumber}
       onClick={
         onPhotoClick
           ? () =>
@@ -93,6 +106,9 @@ export default function PhotoCard({ block, priority = false, onPhotoClick }: Pho
                 isFilmPhoto: block.isFilmPhoto,
                 filmType: block.filmType,
                 filmStock: block.filmStock,
+                applyFilmBorder: block.applyFilmBorder,
+                filmBorderNumber: block.filmBorderNumber,
+                blackAndWhite: block.blackAndWhite,
               })
           : undefined
       }
@@ -109,19 +125,30 @@ function PhotoCardItem({
   priority,
   onClick,
   blackAndWhite = false,
+  applyFilmBorder = false,
+  filmBorderNumber,
 }: {
   image: Media
   caption?: string
   priority: boolean
   onClick?: () => void
   blackAndWhite?: boolean
+  applyFilmBorder?: boolean
+  filmBorderNumber?: string
 }) {
-  // Use bordered version if available, otherwise use original
-  const hasBorderedVersion = image.borderedVersion?.url
-  const imageUrl = hasBorderedVersion ? image.borderedVersion.url : image.url
-  const width = hasBorderedVersion ? (image.borderedVersion.width || 1200) : (image.width || 1200)
-  const height = hasBorderedVersion ? (image.borderedVersion.height || 800) : (image.height || 800)
+  const width = image.width || 1200
+  const height = image.height || 800
   const alt = image.alt || 'Gallery photo'
+
+  // Generate Cloudinary URL with film border if enabled
+  const imageUrl = getCloudinaryUrl({
+    imageUrl: image.url || '',
+    width,
+    height,
+    applyFilmBorder,
+    filmBorderNumber,
+    isBlackAndWhite: blackAndWhite,
+  })
 
   const cardRef = useRef<HTMLDivElement>(null)
   const [isRevealed, setIsRevealed] = useState(false)

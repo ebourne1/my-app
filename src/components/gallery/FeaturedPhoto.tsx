@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import { fontMap, type FontFamily } from '@/lib/fonts'
+import { getCloudinaryUrl } from '@/lib/cloudinary'
 
 interface OverlayTextBlock {
   blockType: 'overlayText'
@@ -37,6 +38,9 @@ interface FeaturedPhotoProps {
     enableOverlay?: boolean
     overlayContent?: OverlayContentBlock[]
     overlayIntensity?: 'none' | 'light' | 'medium' | 'heavy'
+    blackAndWhite?: boolean
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
   }
 }
 
@@ -93,12 +97,20 @@ export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
     return null
   }
 
-  // Use bordered version if available, otherwise use original
-  const hasBorderedVersion = image.borderedVersion?.url
-  const imageUrl = hasBorderedVersion ? image.borderedVersion.url : image.url
-  const width = hasBorderedVersion ? (image.borderedVersion.width || 2400) : (image.width || 2400)
-  const height = hasBorderedVersion ? (image.borderedVersion.height || 1200) : (image.height || 1200)
+  const width = image.width || 2400
+  const height = image.height || 1200
   const alt = image.alt || 'Featured photo'
+
+  // Generate Cloudinary URL with film border if enabled
+  const imageUrl = getCloudinaryUrl({
+    imageUrl: image.url || '',
+    width,
+    height,
+    applyFilmBorder: block.applyFilmBorder,
+    filmBorderNumber: block.filmBorderNumber,
+    isBlackAndWhite: block.blackAndWhite,
+    quality: 90,
+  })
 
   const overlayIntensity = block.overlayIntensity || 'medium'
   const overlayClasses = ['featured-overlay', `overlay-intensity-${overlayIntensity}`].join(' ')

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
+import { getCloudinaryUrl } from '@/lib/cloudinary'
 
 interface PhotoModalProps {
   isOpen: boolean
@@ -13,6 +14,9 @@ interface PhotoModalProps {
     isFilmPhoto?: boolean
     filmType?: string
     filmStock?: string
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
+    blackAndWhite?: boolean
   } | null
 }
 
@@ -51,13 +55,21 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
 
   if (!isOpen || !photo) return null
 
-  const { image, caption, isFilmPhoto, filmType, filmStock } = photo
-  // Use bordered version if available, otherwise use original
-  const hasBorderedVersion = image.borderedVersion?.url
-  const imageUrl = hasBorderedVersion ? image.borderedVersion.url : image.url
-  const width = hasBorderedVersion ? (image.borderedVersion.width || 1200) : (image.width || 1200)
-  const height = hasBorderedVersion ? (image.borderedVersion.height || 800) : (image.height || 800)
+  const { image, caption, isFilmPhoto, filmType, filmStock, applyFilmBorder, filmBorderNumber, blackAndWhite } = photo
+  const width = image.width || 1200
+  const height = image.height || 800
   const alt = image.alt || 'Gallery photo'
+
+  // Generate Cloudinary URL with higher quality for modal
+  const imageUrl = getCloudinaryUrl({
+    imageUrl: image.url || '',
+    width: 2400, // Higher quality for modal/lightbox
+    height: 1600,
+    applyFilmBorder,
+    filmBorderNumber,
+    isBlackAndWhite: blackAndWhite,
+    quality: 95, // Higher quality for modal
+  })
 
   return (
     <div className="photo-modal-overlay" onClick={onClose}>

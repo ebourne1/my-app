@@ -14,6 +14,8 @@ interface BulkPhotos3AcrossProps {
     filmType?: string
     filmStock?: string
     blackAndWhite?: boolean
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
   }
 }
 
@@ -37,6 +39,9 @@ export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
     isFilmPhoto?: boolean
     filmType?: string
     filmStock?: string
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
+    blackAndWhite?: boolean
   } | null>(null)
 
   const handlePhotoClick = (photo: {
@@ -45,6 +50,9 @@ export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
     isFilmPhoto?: boolean
     filmType?: string
     filmStock?: string
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
+    blackAndWhite?: boolean
   }) => {
     // Disable modal on mobile screens (< 768px)
     if (window.innerWidth < 768) {
@@ -59,13 +67,15 @@ export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
 
   // Flatten images into individual photo items with shared metadata
   const photoItems = block.images.map((image, idx) => ({
-    blockType: 'photo',
+    blockType: 'photo' as const,
     image: image,
     id: `${block.blockType}-${idx}`,
     isFilmPhoto: block.isFilmPhoto,
     filmType: block.filmType,
     filmStock: block.filmStock,
     blackAndWhite: block.blackAndWhite,
+    applyFilmBorder: block.applyFilmBorder,
+    filmBorderNumber: block.filmBorderNumber,
   }))
 
   return (
