@@ -48,18 +48,6 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
     layout: 'masonry',
     priority: false,
   },
-  textCardSmall: {
-    slug: 'textCardSmall',
-    component: TextCardSmall,
-    layout: 'masonry',
-    priority: false,
-  },
-  mixedGrid3Across: {
-    slug: 'mixedGrid3Across',
-    component: MixedGrid3Across,
-    layout: 'section-break',
-    priority: false,
-  },
   photoBulk3Across: {
     slug: 'photoBulk3Across',
     component: BulkPhotos3Across,

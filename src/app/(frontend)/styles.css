@@ -1558,14 +1558,27 @@ svg {
   }
 }
 
-/* Small Text Card - First in Masonry Section
-   On large screens, center it at top */
-@media (min-width: 1024px) {
-  .text-card-small.first-in-masonry {
-    grid-column: 2 / 3;
-    margin: 0 auto 2rem;
-    max-width: 500px;
+/* Small Text Card - First in 3-Column Grid
+   On large screens (md+), center it at top center column
+   MUI Masonry uses column-wrap flexbox, so we need to break the column flow */
+.bulk-photos-3-across .text-card-small.first-in-masonry,
+.mixed-grid-3-across .text-card-small.first-in-masonry {
+  @media (min-width: 768px) {
+    /* Force this item to take full width and break column flow */
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto 2rem !important;
+    order: -999 !important; /* Ensure it appears absolutely first */
+    align-self: center !important;
   }
+}
+
+/* Wrappers for 3-column grids */
+.bulk-photos-3-across,
+.mixed-grid-3-across {
+  width: 100%;
+  margin: 2rem 0;
 }
 
 /* Small Text Card Background Variants - reuse existing classes */

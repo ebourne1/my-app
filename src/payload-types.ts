@@ -279,9 +279,55 @@ export interface Gallery {
           }
         | {
             /**
-             * Upload multiple photos - displays in 3-column grid (full-width section)
+             * Add photos and small text cards with individual control over each item. For bulk photo upload with shared settings, use the "images" field below.
              */
-            images: (number | Media)[];
+            items?:
+              | (
+                  | {
+                      image: number | Media;
+                      caption?: string | null;
+                      isFilmPhoto?: boolean | null;
+                      filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+                      filmStock?: string | null;
+                      blackAndWhite?: boolean | null;
+                      applyFilmBorder?: boolean | null;
+                      filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'gridPhoto';
+                    }
+                  | {
+                      content: {
+                        root: {
+                          type: string;
+                          children: {
+                            type: any;
+                            version: number;
+                            [k: string]: unknown;
+                          }[];
+                          direction: ('ltr' | 'rtl') | null;
+                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                          indent: number;
+                          version: number;
+                        };
+                        [k: string]: unknown;
+                      };
+                      fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
+                      fontSize?: ('small' | 'medium' | 'large') | null;
+                      fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
+                      textAlign?: ('left' | 'center' | 'right') | null;
+                      backgroundType?: ('none' | 'solid') | null;
+                      backgroundColor?: ('light' | 'dark' | 'accent') | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'gridTextCard';
+                    }
+                )[]
+              | null;
+            /**
+             * Bulk photo upload - all photos will share the film metadata settings below. For individual control over each photo, use the "items" field above instead.
+             */
+            images?: (number | Media)[] | null;
             /**
              * Mark all photos in this batch as film photographs
              */
@@ -501,85 +547,6 @@ export interface Gallery {
             blockName?: string | null;
             blockType: 'textCard';
           }
-        | {
-            /**
-             * Text content for the masonry grid. Supports hyperlinks and rich formatting. Keep concise.
-             */
-            content: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            /**
-             * Font family for the text content
-             */
-            fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
-            /**
-             * Base font size for paragraphs
-             */
-            fontSize?: ('small' | 'medium' | 'large' | 'xl') | null;
-            /**
-             * Font weight for body text
-             */
-            fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
-            /**
-             * Line spacing for readability
-             */
-            lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
-            /**
-             * Letter spacing (tracking)
-             */
-            letterSpacing?: ('tight' | 'normal' | 'wide') | null;
-            /**
-             * Text alignment
-             */
-            textAlign?: ('left' | 'center' | 'right' | 'justify') | null;
-            /**
-             * Background type for the text card
-             */
-            backgroundType?: ('none' | 'solid' | 'image') | null;
-            /**
-             * Background color scheme
-             */
-            backgroundColor?: ('light' | 'dark' | 'accent' | 'custom') | null;
-            /**
-             * Custom background color (e.g., #1a1a1a or rgb(26, 26, 26))
-             */
-            customBackgroundColor?: string | null;
-            /**
-             * Custom text color (e.g., #ffffff or rgb(255, 255, 255))
-             */
-            customTextColor?: string | null;
-            /**
-             * Background image for the text card
-             */
-            backgroundImage?: (number | null) | Media;
-            /**
-             * Overlay color for text readability
-             */
-            overlayColor?: ('dark' | 'light' | 'custom') | null;
-            /**
-             * Custom overlay color (e.g., #000000 or rgb(0, 0, 0))
-             */
-            customOverlayColor?: string | null;
-            /**
-             * Overlay opacity (0-100, where 100 is fully opaque)
-             */
-            overlayOpacity?: number | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textCardSmall';
-          }
       )[]
     | null;
   updatedAt: string;
@@ -732,6 +699,37 @@ export interface GallerySelect<T extends boolean = true> {
         photoBulk3Across?:
           | T
           | {
+              items?:
+                | T
+                | {
+                    gridPhoto?:
+                      | T
+                      | {
+                          image?: T;
+                          caption?: T;
+                          isFilmPhoto?: T;
+                          filmType?: T;
+                          filmStock?: T;
+                          blackAndWhite?: T;
+                          applyFilmBorder?: T;
+                          filmBorderNumber?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    gridTextCard?:
+                      | T
+                      | {
+                          content?: T;
+                          fontFamily?: T;
+                          fontSize?: T;
+                          fontWeight?: T;
+                          textAlign?: T;
+                          backgroundType?: T;
+                          backgroundColor?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
               images?: T;
               isFilmPhoto?: T;
               filmType?: T;
@@ -784,27 +782,6 @@ export interface GallerySelect<T extends boolean = true> {
               blockName?: T;
             };
         textCard?:
-          | T
-          | {
-              content?: T;
-              fontFamily?: T;
-              fontSize?: T;
-              fontWeight?: T;
-              lineHeight?: T;
-              letterSpacing?: T;
-              textAlign?: T;
-              backgroundType?: T;
-              backgroundColor?: T;
-              customBackgroundColor?: T;
-              customTextColor?: T;
-              backgroundImage?: T;
-              overlayColor?: T;
-              customOverlayColor?: T;
-              overlayOpacity?: T;
-              id?: T;
-              blockName?: T;
-            };
-        textCardSmall?:
           | T
           | {
               content?: T;

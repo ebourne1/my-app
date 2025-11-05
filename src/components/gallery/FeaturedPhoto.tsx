@@ -251,7 +251,8 @@ function RichTextRenderer({ data, fontSize, fontColor }: { data: any; fontSize?:
         }
 
         if (node.type === 'heading') {
-          const HeadingTag = `h${node.tag}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+          const tagNumber = node.tag?.toString().replace('h', '')
+          const HeadingTag = `h${tagNumber}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
           return (
             <HeadingTag key={index} style={elementStyle}>
               {node.children?.map((child: any) => child.text).join('')}
