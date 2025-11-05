@@ -61,10 +61,11 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
   const alt = image.alt || 'Gallery photo'
 
   // Generate Cloudinary URL with higher quality for modal
+  // Use actual image dimensions to ensure correct border orientation
   const imageUrl = getCloudinaryUrl({
     imageUrl: image.url || '',
-    width: 2400, // Higher quality for modal/lightbox
-    height: 1600,
+    width, // Use actual image width for correct orientation detection
+    height, // Use actual image height for correct orientation detection
     applyFilmBorder,
     filmBorderNumber,
     isBlackAndWhite: blackAndWhite,
