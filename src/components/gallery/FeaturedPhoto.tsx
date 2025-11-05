@@ -93,9 +93,11 @@ export default function FeaturedPhoto({ block }: FeaturedPhotoProps) {
     return null
   }
 
-  const imageUrl = image.url
-  const width = image.width || 2400
-  const height = image.height || 1200
+  // Use bordered version if available, otherwise use original
+  const hasBorderedVersion = image.borderedVersion?.url
+  const imageUrl = hasBorderedVersion ? image.borderedVersion.url : image.url
+  const width = hasBorderedVersion ? (image.borderedVersion.width || 2400) : (image.width || 2400)
+  const height = hasBorderedVersion ? (image.borderedVersion.height || 1200) : (image.height || 1200)
   const alt = image.alt || 'Featured photo'
 
   const overlayIntensity = block.overlayIntensity || 'medium'

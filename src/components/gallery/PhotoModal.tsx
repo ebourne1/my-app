@@ -52,9 +52,11 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
   if (!isOpen || !photo) return null
 
   const { image, caption, isFilmPhoto, filmType, filmStock } = photo
-  const imageUrl = image.url
-  const width = image.width || 1200
-  const height = image.height || 800
+  // Use bordered version if available, otherwise use original
+  const hasBorderedVersion = image.borderedVersion?.url
+  const imageUrl = hasBorderedVersion ? image.borderedVersion.url : image.url
+  const width = hasBorderedVersion ? (image.borderedVersion.width || 1200) : (image.width || 1200)
+  const height = hasBorderedVersion ? (image.borderedVersion.height || 800) : (image.height || 800)
   const alt = image.alt || 'Gallery photo'
 
   return (

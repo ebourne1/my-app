@@ -132,6 +132,33 @@ export const Gallery: CollectionConfig = {
                 description: 'Render this photo in black and white (grayscale filter)',
               },
             },
+            {
+              name: 'applyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Apply a film border overlay to this photo (requires running border processing script)',
+              },
+            },
+            {
+              name: 'filmBorderNumber',
+              type: 'select',
+              options: [
+                { label: 'Border 1', value: 1 },
+                { label: 'Border 2', value: 2 },
+                { label: 'Border 3', value: 3 },
+                { label: 'Border 4', value: 4 },
+                { label: 'Border 5', value: 5 },
+                { label: 'Border 6', value: 6 },
+                { label: 'Border 7', value: 7 },
+                { label: 'Border 8', value: 8 },
+              ],
+              defaultValue: 1,
+              admin: {
+                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                description: 'Select which film border design to apply (1-8)',
+              },
+            },
           ],
         },
 
@@ -215,6 +242,33 @@ export const Gallery: CollectionConfig = {
                 description: 'Render all photos in this batch in black and white (grayscale filter)',
               },
             },
+            {
+              name: 'applyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Apply a film border overlay to all photos in this batch (requires running border processing script)',
+              },
+            },
+            {
+              name: 'filmBorderNumber',
+              type: 'select',
+              options: [
+                { label: 'Border 1', value: 1 },
+                { label: 'Border 2', value: 2 },
+                { label: 'Border 3', value: 3 },
+                { label: 'Border 4', value: 4 },
+                { label: 'Border 5', value: 5 },
+                { label: 'Border 6', value: 6 },
+                { label: 'Border 7', value: 7 },
+                { label: 'Border 8', value: 8 },
+              ],
+              defaultValue: 1,
+              admin: {
+                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                description: 'Select which film border design to apply to all photos (1-8)',
+              },
+            },
           ],
         },
 
@@ -296,6 +350,33 @@ export const Gallery: CollectionConfig = {
               defaultValue: false,
               admin: {
                 description: 'Render all photos in this batch in black and white (grayscale filter)',
+              },
+            },
+            {
+              name: 'applyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Apply a film border overlay to all photos in this batch (requires running border processing script)',
+              },
+            },
+            {
+              name: 'filmBorderNumber',
+              type: 'select',
+              options: [
+                { label: 'Border 1', value: 1 },
+                { label: 'Border 2', value: 2 },
+                { label: 'Border 3', value: 3 },
+                { label: 'Border 4', value: 4 },
+                { label: 'Border 5', value: 5 },
+                { label: 'Border 6', value: 6 },
+                { label: 'Border 7', value: 7 },
+                { label: 'Border 8', value: 8 },
+              ],
+              defaultValue: 1,
+              admin: {
+                condition: (data, siblingData) => siblingData?.applyFilmBorder === true,
+                description: 'Select which film border design to apply to all photos (1-8)',
               },
             },
           ],
