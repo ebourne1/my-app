@@ -272,7 +272,190 @@ export const Gallery: CollectionConfig = {
           ],
         },
 
-        // Block 1c: Bulk Photo Upload - 3 Across
+        // Block 1c: Mixed Grid 3 Across (Photos + Text Cards)
+        {
+          slug: 'mixedGrid3Across',
+          labels: {
+            singular: '3-Column Grid Section',
+            plural: '3-Column Grid Sections',
+          },
+          fields: [
+            {
+              name: 'items',
+              type: 'blocks',
+              minRows: 1,
+              admin: {
+                description: 'Add photos and small text cards to this 3-column grid section',
+              },
+              blocks: [
+                // Simple Photo in 3-column grid
+                {
+                  slug: 'gridPhoto',
+                  labels: {
+                    singular: 'Photo',
+                    plural: 'Photos',
+                  },
+                  fields: [
+                    {
+                      name: 'image',
+                      type: 'upload',
+                      relationTo: 'media',
+                      required: true,
+                    },
+                    {
+                      name: 'caption',
+                      type: 'text',
+                    },
+                    {
+                      name: 'isFilmPhoto',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'filmType',
+                      type: 'select',
+                      options: [
+                        { label: '35mm', value: '35mm' },
+                        { label: '645 Medium Format', value: '645' },
+                        { label: '6x6 Medium Format', value: '6x6' },
+                        { label: '6x7 Medium Format', value: '6x7' },
+                        { label: '6x9 Medium Format', value: '6x9' },
+                        { label: 'Large Format 4x5', value: '4x5' },
+                        { label: 'Large Format 8x10', value: '8x10' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'filmStock',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'blackAndWhite',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'applyFilmBorder',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'filmBorderNumber',
+                      type: 'select',
+                      options: [
+                        { label: 'Border 1', value: '1' },
+                        { label: 'Border 2', value: '2' },
+                        { label: 'Border 3', value: '3' },
+                        { label: 'Border 4', value: '4' },
+                        { label: 'Border 5', value: '5' },
+                        { label: 'Border 6', value: '6' },
+                        { label: 'Border 7', value: '7' },
+                        { label: 'Border 8', value: '8' },
+                      ],
+                      defaultValue: '1',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
+                      },
+                    },
+                  ],
+                },
+                // Small Text Card reference (same as the standalone one)
+                {
+                  slug: 'gridTextCard',
+                  labels: {
+                    singular: 'Text Card',
+                    plural: 'Text Cards',
+                  },
+                  fields: [
+                    {
+                      name: 'content',
+                      type: 'richText',
+                      required: true,
+                      editor: lexicalEditor({
+                        features: ({ defaultFeatures }) => [...defaultFeatures],
+                      }),
+                    },
+                    {
+                      name: 'fontFamily',
+                      type: 'select',
+                      defaultValue: 'inter',
+                      options: [
+                        { label: 'Inter', value: 'inter' },
+                        { label: 'Playfair Display', value: 'playfair' },
+                        { label: 'Bebas Neue', value: 'bebas' },
+                        { label: 'Lobster Two', value: 'lobster-two' },
+                        { label: 'Monospace', value: 'monospace' },
+                      ],
+                    },
+                    {
+                      name: 'fontSize',
+                      type: 'select',
+                      defaultValue: 'small',
+                      options: [
+                        { label: 'Small', value: 'small' },
+                        { label: 'Medium', value: 'medium' },
+                        { label: 'Large', value: 'large' },
+                        { label: 'Extra Large', value: 'xl' },
+                      ],
+                    },
+                    {
+                      name: 'fontWeight',
+                      type: 'select',
+                      defaultValue: 'normal',
+                      options: [
+                        { label: 'Light', value: 'light' },
+                        { label: 'Normal', value: 'normal' },
+                        { label: 'Medium', value: 'medium' },
+                        { label: 'Semibold', value: 'semibold' },
+                        { label: 'Bold', value: 'bold' },
+                      ],
+                    },
+                    {
+                      name: 'textAlign',
+                      type: 'select',
+                      defaultValue: 'left',
+                      options: [
+                        { label: 'Left', value: 'left' },
+                        { label: 'Center', value: 'center' },
+                        { label: 'Right', value: 'right' },
+                      ],
+                    },
+                    {
+                      name: 'backgroundType',
+                      type: 'select',
+                      defaultValue: 'solid',
+                      options: [
+                        { label: 'None', value: 'none' },
+                        { label: 'Solid Color', value: 'solid' },
+                        { label: 'Image', value: 'image' },
+                      ],
+                    },
+                    {
+                      name: 'backgroundColor',
+                      type: 'select',
+                      defaultValue: 'light',
+                      options: [
+                        { label: 'Light', value: 'light' },
+                        { label: 'Dark', value: 'dark' },
+                        { label: 'Accent', value: 'accent' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+
+        // Block 1d: Bulk Photo Upload - 3 Across (Legacy - photos only)
         {
           slug: 'photoBulk3Across',
           labels: {
@@ -670,11 +853,116 @@ export const Gallery: CollectionConfig = {
               type: 'richText',
               required: true,
               editor: lexicalEditor({
-                features: ({ defaultFeatures }) => defaultFeatures,
+                features: ({ defaultFeatures }) => [
+                  ...defaultFeatures,
+                  // Link support is included in defaultFeatures
+                ],
               }),
               admin: {
                 description:
-                  'Text content for storytelling or context. Displays full-width. Keep to 2-4 paragraphs for optimal layout.',
+                  'Text content for storytelling or context. Displays full-width. Supports hyperlinks and rich formatting.',
+              },
+            },
+
+            // Typography Controls
+            {
+              name: 'fontFamily',
+              type: 'select',
+              defaultValue: 'inter',
+              options: [
+                { label: 'Inter (Sans Serif)', value: 'inter' },
+                { label: 'Playfair Display (Serif)', value: 'playfair' },
+                { label: 'Bebas Neue (Display)', value: 'bebas' },
+                { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                { label: 'JetBrains Mono (Monospace)', value: 'monospace' },
+              ],
+              admin: {
+                description: 'Font family for the text content',
+              },
+            },
+            {
+              name: 'fontSize',
+              type: 'select',
+              defaultValue: 'medium',
+              options: [
+                { label: 'Small', value: 'small' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Large', value: 'large' },
+                { label: 'Extra Large', value: 'xl' },
+              ],
+              admin: {
+                description: 'Base font size for paragraphs',
+              },
+            },
+            {
+              name: 'fontWeight',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Light (300)', value: 'light' },
+                { label: 'Normal (400)', value: 'normal' },
+                { label: 'Medium (500)', value: 'medium' },
+                { label: 'Semibold (600)', value: 'semibold' },
+                { label: 'Bold (700)', value: 'bold' },
+              ],
+              admin: {
+                description: 'Font weight for body text',
+              },
+            },
+            {
+              name: 'lineHeight',
+              type: 'select',
+              defaultValue: 'relaxed',
+              options: [
+                { label: 'Tight (1.4)', value: 'tight' },
+                { label: 'Normal (1.6)', value: 'normal' },
+                { label: 'Relaxed (1.8)', value: 'relaxed' },
+                { label: 'Loose (2.0)', value: 'loose' },
+              ],
+              admin: {
+                description: 'Line spacing for readability',
+              },
+            },
+            {
+              name: 'letterSpacing',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Tight (-0.025em)', value: 'tight' },
+                { label: 'Normal (0)', value: 'normal' },
+                { label: 'Wide (0.05em)', value: 'wide' },
+              ],
+              admin: {
+                description: 'Letter spacing (tracking)',
+              },
+            },
+            {
+              name: 'textAlign',
+              type: 'select',
+              defaultValue: 'left',
+              options: [
+                { label: 'Left', value: 'left' },
+                { label: 'Center', value: 'center' },
+                { label: 'Right', value: 'right' },
+                { label: 'Justify', value: 'justify' },
+              ],
+              admin: {
+                description: 'Text alignment',
+              },
+            },
+
+            // Background Configuration
+            {
+              name: 'backgroundType',
+              type: 'select',
+              defaultValue: 'solid',
+              options: [
+                { label: 'None (Transparent)', value: 'none' },
+                { label: 'Solid Color', value: 'solid' },
+                { label: 'Image', value: 'image' },
+              ],
+              admin: {
+                description: 'Background type for the text card',
               },
             },
             {
@@ -682,21 +970,279 @@ export const Gallery: CollectionConfig = {
               type: 'select',
               defaultValue: 'light',
               options: [
-                {
-                  label: 'Light',
-                  value: 'light',
-                },
-                {
-                  label: 'Dark',
-                  value: 'dark',
-                },
-                {
-                  label: 'Accent',
-                  value: 'accent',
-                },
+                { label: 'Light (Dark Grey)', value: 'light' },
+                { label: 'Dark (Near Black)', value: 'dark' },
+                { label: 'Accent (Blue-Grey)', value: 'accent' },
+                { label: 'Custom Color', value: 'custom' },
               ],
               admin: {
-                description: 'Background color scheme for the text card',
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                description: 'Background color scheme',
+              },
+            },
+            {
+              name: 'customBackgroundColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                description: 'Custom background color (e.g., #1a1a1a or rgb(26, 26, 26))',
+              },
+            },
+            {
+              name: 'customTextColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                description: 'Custom text color (e.g., #ffffff or rgb(255, 255, 255))',
+              },
+            },
+            {
+              name: 'backgroundImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Background image for the text card',
+              },
+            },
+            {
+              name: 'overlayColor',
+              type: 'select',
+              defaultValue: 'dark',
+              options: [
+                { label: 'Dark Overlay', value: 'dark' },
+                { label: 'Light Overlay', value: 'light' },
+                { label: 'Custom Overlay', value: 'custom' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Overlay color for text readability',
+              },
+            },
+            {
+              name: 'customOverlayColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'image' && siblingData?.overlayColor === 'custom',
+                description: 'Custom overlay color (e.g., #000000 or rgb(0, 0, 0))',
+              },
+            },
+            {
+              name: 'overlayOpacity',
+              type: 'number',
+              defaultValue: 70,
+              min: 0,
+              max: 100,
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Overlay opacity (0-100, where 100 is fully opaque)',
+              },
+            },
+          ],
+        },
+
+        // Block 4: Small Text Card (Masonry Grid Item)
+        {
+          slug: 'textCardSmall',
+          labels: {
+            singular: 'Small Text Card',
+            plural: 'Small Text Cards',
+          },
+          fields: [
+            {
+              name: 'content',
+              type: 'richText',
+              required: true,
+              editor: lexicalEditor({
+                features: ({ defaultFeatures }) => [
+                  ...defaultFeatures,
+                  // Link support is included in defaultFeatures
+                ],
+              }),
+              admin: {
+                description:
+                  'Text content for the masonry grid. Supports hyperlinks and rich formatting. Keep concise.',
+              },
+            },
+
+            // Typography Controls
+            {
+              name: 'fontFamily',
+              type: 'select',
+              defaultValue: 'inter',
+              options: [
+                { label: 'Inter (Sans Serif)', value: 'inter' },
+                { label: 'Playfair Display (Serif)', value: 'playfair' },
+                { label: 'Bebas Neue (Display)', value: 'bebas' },
+                { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                { label: 'JetBrains Mono (Monospace)', value: 'monospace' },
+              ],
+              admin: {
+                description: 'Font family for the text content',
+              },
+            },
+            {
+              name: 'fontSize',
+              type: 'select',
+              defaultValue: 'small',
+              options: [
+                { label: 'Small', value: 'small' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Large', value: 'large' },
+                { label: 'Extra Large', value: 'xl' },
+              ],
+              admin: {
+                description: 'Base font size for paragraphs',
+              },
+            },
+            {
+              name: 'fontWeight',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Light (300)', value: 'light' },
+                { label: 'Normal (400)', value: 'normal' },
+                { label: 'Medium (500)', value: 'medium' },
+                { label: 'Semibold (600)', value: 'semibold' },
+                { label: 'Bold (700)', value: 'bold' },
+              ],
+              admin: {
+                description: 'Font weight for body text',
+              },
+            },
+            {
+              name: 'lineHeight',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Tight (1.4)', value: 'tight' },
+                { label: 'Normal (1.6)', value: 'normal' },
+                { label: 'Relaxed (1.8)', value: 'relaxed' },
+                { label: 'Loose (2.0)', value: 'loose' },
+              ],
+              admin: {
+                description: 'Line spacing for readability',
+              },
+            },
+            {
+              name: 'letterSpacing',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Tight (-0.025em)', value: 'tight' },
+                { label: 'Normal (0)', value: 'normal' },
+                { label: 'Wide (0.05em)', value: 'wide' },
+              ],
+              admin: {
+                description: 'Letter spacing (tracking)',
+              },
+            },
+            {
+              name: 'textAlign',
+              type: 'select',
+              defaultValue: 'left',
+              options: [
+                { label: 'Left', value: 'left' },
+                { label: 'Center', value: 'center' },
+                { label: 'Right', value: 'right' },
+                { label: 'Justify', value: 'justify' },
+              ],
+              admin: {
+                description: 'Text alignment',
+              },
+            },
+
+            // Background Configuration
+            {
+              name: 'backgroundType',
+              type: 'select',
+              defaultValue: 'solid',
+              options: [
+                { label: 'None (Transparent)', value: 'none' },
+                { label: 'Solid Color', value: 'solid' },
+                { label: 'Image', value: 'image' },
+              ],
+              admin: {
+                description: 'Background type for the text card',
+              },
+            },
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              defaultValue: 'light',
+              options: [
+                { label: 'Light (Dark Grey)', value: 'light' },
+                { label: 'Dark (Near Black)', value: 'dark' },
+                { label: 'Accent (Blue-Grey)', value: 'accent' },
+                { label: 'Custom Color', value: 'custom' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                description: 'Background color scheme',
+              },
+            },
+            {
+              name: 'customBackgroundColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                description: 'Custom background color (e.g., #1a1a1a or rgb(26, 26, 26))',
+              },
+            },
+            {
+              name: 'customTextColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                description: 'Custom text color (e.g., #ffffff or rgb(255, 255, 255))',
+              },
+            },
+            {
+              name: 'backgroundImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Background image for the text card',
+              },
+            },
+            {
+              name: 'overlayColor',
+              type: 'select',
+              defaultValue: 'dark',
+              options: [
+                { label: 'Dark Overlay', value: 'dark' },
+                { label: 'Light Overlay', value: 'light' },
+                { label: 'Custom Overlay', value: 'custom' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Overlay color for text readability',
+              },
+            },
+            {
+              name: 'customOverlayColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'image' && siblingData?.overlayColor === 'custom',
+                description: 'Custom overlay color (e.g., #000000 or rgb(0, 0, 0))',
+              },
+            },
+            {
+              name: 'overlayOpacity',
+              type: 'number',
+              defaultValue: 70,
+              min: 0,
+              max: 100,
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                description: 'Overlay opacity (0-100, where 100 is fully opaque)',
               },
             },
           ],

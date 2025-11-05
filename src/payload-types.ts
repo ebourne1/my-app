@@ -424,7 +424,7 @@ export interface Gallery {
           }
         | {
             /**
-             * Text content for storytelling or context. Displays full-width. Keep to 2-4 paragraphs for optimal layout.
+             * Text content for storytelling or context. Displays full-width. Supports hyperlinks and rich formatting.
              */
             content: {
               root: {
@@ -442,12 +442,143 @@ export interface Gallery {
               [k: string]: unknown;
             };
             /**
-             * Background color scheme for the text card
+             * Font family for the text content
              */
-            backgroundColor?: ('light' | 'dark' | 'accent') | null;
+            fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
+            /**
+             * Base font size for paragraphs
+             */
+            fontSize?: ('small' | 'medium' | 'large' | 'xl') | null;
+            /**
+             * Font weight for body text
+             */
+            fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
+            /**
+             * Line spacing for readability
+             */
+            lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
+            /**
+             * Letter spacing (tracking)
+             */
+            letterSpacing?: ('tight' | 'normal' | 'wide') | null;
+            /**
+             * Text alignment
+             */
+            textAlign?: ('left' | 'center' | 'right' | 'justify') | null;
+            /**
+             * Background type for the text card
+             */
+            backgroundType?: ('none' | 'solid' | 'image') | null;
+            /**
+             * Background color scheme
+             */
+            backgroundColor?: ('light' | 'dark' | 'accent' | 'custom') | null;
+            /**
+             * Custom background color (e.g., #1a1a1a or rgb(26, 26, 26))
+             */
+            customBackgroundColor?: string | null;
+            /**
+             * Custom text color (e.g., #ffffff or rgb(255, 255, 255))
+             */
+            customTextColor?: string | null;
+            /**
+             * Background image for the text card
+             */
+            backgroundImage?: (number | null) | Media;
+            /**
+             * Overlay color for text readability
+             */
+            overlayColor?: ('dark' | 'light' | 'custom') | null;
+            /**
+             * Custom overlay color (e.g., #000000 or rgb(0, 0, 0))
+             */
+            customOverlayColor?: string | null;
+            /**
+             * Overlay opacity (0-100, where 100 is fully opaque)
+             */
+            overlayOpacity?: number | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textCard';
+          }
+        | {
+            /**
+             * Text content for the masonry grid. Supports hyperlinks and rich formatting. Keep concise.
+             */
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            /**
+             * Font family for the text content
+             */
+            fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
+            /**
+             * Base font size for paragraphs
+             */
+            fontSize?: ('small' | 'medium' | 'large' | 'xl') | null;
+            /**
+             * Font weight for body text
+             */
+            fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
+            /**
+             * Line spacing for readability
+             */
+            lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
+            /**
+             * Letter spacing (tracking)
+             */
+            letterSpacing?: ('tight' | 'normal' | 'wide') | null;
+            /**
+             * Text alignment
+             */
+            textAlign?: ('left' | 'center' | 'right' | 'justify') | null;
+            /**
+             * Background type for the text card
+             */
+            backgroundType?: ('none' | 'solid' | 'image') | null;
+            /**
+             * Background color scheme
+             */
+            backgroundColor?: ('light' | 'dark' | 'accent' | 'custom') | null;
+            /**
+             * Custom background color (e.g., #1a1a1a or rgb(26, 26, 26))
+             */
+            customBackgroundColor?: string | null;
+            /**
+             * Custom text color (e.g., #ffffff or rgb(255, 255, 255))
+             */
+            customTextColor?: string | null;
+            /**
+             * Background image for the text card
+             */
+            backgroundImage?: (number | null) | Media;
+            /**
+             * Overlay color for text readability
+             */
+            overlayColor?: ('dark' | 'light' | 'custom') | null;
+            /**
+             * Custom overlay color (e.g., #000000 or rgb(0, 0, 0))
+             */
+            customOverlayColor?: string | null;
+            /**
+             * Overlay opacity (0-100, where 100 is fully opaque)
+             */
+            overlayOpacity?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textCardSmall';
           }
       )[]
     | null;
@@ -656,7 +787,41 @@ export interface GallerySelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              fontFamily?: T;
+              fontSize?: T;
+              fontWeight?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textAlign?: T;
+              backgroundType?: T;
               backgroundColor?: T;
+              customBackgroundColor?: T;
+              customTextColor?: T;
+              backgroundImage?: T;
+              overlayColor?: T;
+              customOverlayColor?: T;
+              overlayOpacity?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textCardSmall?:
+          | T
+          | {
+              content?: T;
+              fontFamily?: T;
+              fontSize?: T;
+              fontWeight?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textAlign?: T;
+              backgroundType?: T;
+              backgroundColor?: T;
+              customBackgroundColor?: T;
+              customTextColor?: T;
+              backgroundImage?: T;
+              overlayColor?: T;
+              customOverlayColor?: T;
+              overlayOpacity?: T;
               id?: T;
               blockName?: T;
             };

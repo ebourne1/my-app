@@ -1261,6 +1261,393 @@ svg {
   }
 }
 
+/* Text Card - Transparent Background */
+.text-card-transparent {
+  background: transparent;
+  color: inherit;
+}
+
+/* Text Card - Image Background with Overlay */
+.text-card-image {
+  position: relative;
+  color: rgb(255, 255, 255);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--overlay-color, rgba(0, 0, 0, 0.7));
+    border-radius: 12px;
+    z-index: 0;
+  }
+
+  .text-card-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+}
+
+/* Typography Utility Classes - Font Family */
+.font-family-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.font-family-playfair {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-family-bebas {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.font-family-lobster-two {
+  font-family: 'Lobster Two', cursive;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.font-family-monospace {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Typography Utility Classes - Font Size */
+.font-size-small p {
+  font-size: 0.9rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+  }
+}
+
+.font-size-medium p {
+  font-size: 1.125rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.font-size-large p {
+  font-size: 1.25rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.font-size-xl p {
+  font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+/* Typography Utility Classes - Font Weight */
+.font-weight-light {
+  font-weight: 300;
+}
+
+.font-weight-normal {
+  font-weight: 400;
+}
+
+.font-weight-medium {
+  font-weight: 500;
+}
+
+.font-weight-semibold {
+  font-weight: 600;
+}
+
+.font-weight-bold {
+  font-weight: 700;
+}
+
+/* Typography Utility Classes - Line Height */
+.line-height-tight p,
+.line-height-tight li {
+  line-height: 1.4;
+}
+
+.line-height-normal p,
+.line-height-normal li {
+  line-height: 1.6;
+}
+
+.line-height-relaxed p,
+.line-height-relaxed li {
+  line-height: 1.8;
+}
+
+.line-height-loose p,
+.line-height-loose li {
+  line-height: 2.0;
+}
+
+/* Typography Utility Classes - Letter Spacing */
+.letter-spacing-tight {
+  letter-spacing: -0.025em;
+}
+
+.letter-spacing-normal {
+  letter-spacing: 0;
+}
+
+.letter-spacing-wide {
+  letter-spacing: 0.05em;
+}
+
+/* Typography Utility Classes - Text Alignment */
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+/* Link Styles in Text Cards */
+.text-card-link {
+  color: rgb(100, 180, 255);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(100, 180, 255, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: rgb(130, 200, 255);
+    border-bottom-color: rgb(130, 200, 255);
+  }
+
+  &:active {
+    color: rgb(80, 160, 240);
+  }
+}
+
+/* Link styles for transparent background cards */
+.text-card-transparent .text-card-link {
+  color: rgb(70, 150, 230);
+  border-bottom-color: rgba(70, 150, 230, 0.3);
+
+  &:hover {
+    color: rgb(90, 170, 250);
+    border-bottom-color: rgb(90, 170, 250);
+  }
+}
+
+/* Link styles for image background cards */
+.text-card-image .text-card-link {
+  color: rgb(150, 210, 255);
+  border-bottom-color: rgba(150, 210, 255, 0.4);
+
+  &:hover {
+    color: rgb(200, 230, 255);
+    border-bottom-color: rgb(200, 230, 255);
+  }
+}
+
+/* ============================================
+   Small Text Cards (Masonry Grid)
+   ============================================ */
+
+.text-card-small {
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    min-height: 150px;
+  }
+}
+
+.text-card-small-content {
+  width: 100%;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 0.75rem 0;
+    line-height: 1.3;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.25rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.125rem;
+    }
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+
+    @media (max-width: 768px) {
+      font-size: 0.85rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul,
+  ol {
+    margin: 0 0 1rem 0;
+    padding-left: 1.5rem;
+    font-size: 0.9rem;
+
+    li {
+      margin-bottom: 0.4rem;
+      line-height: 1.6;
+    }
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+/* Small Text Card - First in Masonry Section
+   On large screens, center it at top */
+@media (min-width: 1024px) {
+  .text-card-small.first-in-masonry {
+    grid-column: 2 / 3;
+    margin: 0 auto 2rem;
+    max-width: 500px;
+  }
+}
+
+/* Small Text Card Background Variants - reuse existing classes */
+.text-card-small.text-card-light {
+  background: rgb(30, 30, 30);
+  color: rgb(220, 220, 220);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: rgb(255, 255, 255);
+  }
+}
+
+.text-card-small.text-card-dark {
+  background: rgb(10, 10, 10);
+  color: rgb(200, 200, 200);
+  border: 1px solid rgb(40, 40, 40);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: rgb(255, 255, 255);
+  }
+}
+
+.text-card-small.text-card-accent {
+  background: rgb(40, 40, 60);
+  color: rgb(220, 220, 240);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: rgb(255, 255, 255);
+  }
+}
+
+.text-card-small.text-card-transparent {
+  background: transparent;
+  color: inherit;
+}
+
+.text-card-small.text-card-image {
+  position: relative;
+  color: rgb(255, 255, 255);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--overlay-color, rgba(0, 0, 0, 0.7));
+    border-radius: 8px;
+    z-index: 0;
+  }
+
+  .text-card-small-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+}
+
 /* Clickable Photo Card - Only on desktop (>= 768px) */
 @media (min-width: 768px) {
   .photo-card-clickable {

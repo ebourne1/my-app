@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-interface TextCardProps {
+interface TextCardSmallProps {
   block: {
-    blockType: 'textCard'
+    blockType: 'textCardSmall'
     content: any // Lexical RichText JSON
 
     // Typography
@@ -30,30 +30,23 @@ interface TextCardProps {
     customOverlayColor?: string
     overlayOpacity?: number
   }
+  isFirstInMasonry?: boolean
 }
 
 /**
- * TextCard Component
+ * TextCardSmall Component
  *
- * Renders full-width text content cards for storytelling and context.
- * Supports customizable typography, backgrounds (solid/image/none), and rich text.
- *
- * Features:
- * - Full-width display (section break)
- * - Rich text formatting with Lexical (including hyperlinks)
- * - Flexible typography controls
- * - Background options: solid colors, images with overlay, or transparent
- * - Responsive text sizing
- * - Optimal reading width (max 800px centered)
+ * Smaller version of TextCard designed for masonry grid.
+ * When first in masonry section on large screens, centers itself at top.
  */
-export default function TextCard({ block }: TextCardProps) {
+export default function TextCardSmall({ block, isFirstInMasonry = false }: TextCardSmallProps) {
   const {
     content,
     // Typography defaults
     fontFamily = 'inter',
-    fontSize = 'medium',
+    fontSize = 'small',
     fontWeight = 'normal',
-    lineHeight = 'relaxed',
+    lineHeight = 'normal',
     letterSpacing = 'normal',
     textAlign = 'left',
     // Background defaults
@@ -99,7 +92,7 @@ export default function TextCard({ block }: TextCardProps) {
   }, [])
 
   if (!content) {
-    console.warn('TextCard missing content:', block)
+    console.warn('TextCardSmall missing content:', block)
     return null
   }
 
@@ -140,7 +133,7 @@ export default function TextCard({ block }: TextCardProps) {
   // Background image with overlay
   if (backgroundType === 'image' && backgroundImage) {
     const imageUrl = backgroundImage.cloudinaryPublicId
-      ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_1920/${backgroundImage.cloudinaryPublicId}`
+      ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_800/${backgroundImage.cloudinaryPublicId}`
       : backgroundImage.url
 
     cardStyles.backgroundImage = `url(${imageUrl})`
@@ -168,10 +161,10 @@ export default function TextCard({ block }: TextCardProps) {
   return (
     <div
       ref={textCardRef}
-      className={`text-card ${backgroundClasses} reveal-on-scroll ${isRevealed ? 'revealed' : ''}`}
+      className={`text-card-small ${backgroundClasses} ${isFirstInMasonry ? 'first-in-masonry' : ''} reveal-on-scroll ${isRevealed ? 'revealed' : ''}`}
       style={cardStyles}
     >
-      <div className={`text-card-content ${typographyClasses}`} style={contentStyles}>
+      <div className={`text-card-small-content ${typographyClasses}`} style={contentStyles}>
         <RichTextRenderer data={content} />
       </div>
     </div>

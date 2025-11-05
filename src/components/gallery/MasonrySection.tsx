@@ -101,6 +101,11 @@ export default function MasonrySection({ items }: MasonrySectionProps) {
             extraProps.onPhotoClick = handlePhotoClick
           }
 
+          // Pass isFirstInMasonry flag to textCardSmall if it's the first item
+          if (item.blockType === 'textCardSmall' && index === 0) {
+            extraProps.isFirstInMasonry = true
+          }
+
           return (
             <BlockComponent
               key={item.id || `item-${index}`}
