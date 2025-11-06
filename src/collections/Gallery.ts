@@ -547,7 +547,259 @@ export const Gallery: CollectionConfig = {
           ],
         },
 
-        // Block 3: Text Card (Full Width)
+        // Block 3: 3-Column Grid (Section Break)
+        {
+          slug: 'photoBulk3Across',
+          labels: {
+            singular: '3-Column Grid',
+            plural: '3-Column Grids',
+          },
+          fields: [
+            // Individual items array (for mixing photos and text cards)
+            {
+              name: 'items',
+              type: 'blocks',
+              minRows: 0,
+              admin: {
+                description:
+                  'Add individual photos or text cards with full control over each item. Drag to reorder.',
+              },
+              blocks: [
+                // Nested block: Grid Photo
+                {
+                  slug: 'gridPhoto',
+                  labels: {
+                    singular: 'Photo',
+                    plural: 'Photos',
+                  },
+                  fields: [
+                    {
+                      name: 'image',
+                      type: 'upload',
+                      relationTo: 'media',
+                      required: true,
+                    },
+                    {
+                      name: 'caption',
+                      type: 'text',
+                    },
+                    {
+                      name: 'isFilmPhoto',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'filmType',
+                      type: 'select',
+                      options: [
+                        { label: '35mm', value: '35mm' },
+                        { label: '645 Medium Format', value: '645' },
+                        { label: '6x6 Medium Format', value: '6x6' },
+                        { label: '6x7 Medium Format', value: '6x7' },
+                        { label: '6x9 Medium Format', value: '6x9' },
+                        { label: 'Large Format 4x5', value: '4x5' },
+                        { label: 'Large Format 8x10', value: '8x10' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'filmStock',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'blackAndWhite',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'applyFilmBorder',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'filmBorderNumber',
+                      type: 'select',
+                      options: [
+                        { label: 'Border 1', value: '1' },
+                        { label: 'Border 2', value: '2' },
+                        { label: 'Border 3', value: '3' },
+                        { label: 'Border 4', value: '4' },
+                        { label: 'Border 5', value: '5' },
+                        { label: 'Border 6', value: '6' },
+                        { label: 'Border 7', value: '7' },
+                        { label: 'Border 8', value: '8' },
+                      ],
+                      defaultValue: '1',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
+                      },
+                    },
+                  ],
+                },
+                // Nested block: Grid Text Card
+                {
+                  slug: 'gridTextCard',
+                  labels: {
+                    singular: 'Text Card',
+                    plural: 'Text Cards',
+                  },
+                  fields: [
+                    {
+                      name: 'content',
+                      type: 'richText',
+                      required: true,
+                      editor: lexicalEditor({
+                        features: ({ defaultFeatures }) => defaultFeatures,
+                      }),
+                    },
+                    {
+                      name: 'fontFamily',
+                      type: 'select',
+                      defaultValue: 'inter',
+                      options: [
+                        { label: 'Inter (Sans Serif)', value: 'inter' },
+                        { label: 'Playfair Display (Serif)', value: 'playfair' },
+                        { label: 'Bebas Neue (Display)', value: 'bebas' },
+                        { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                      ],
+                    },
+                    {
+                      name: 'fontSize',
+                      type: 'select',
+                      defaultValue: 'medium',
+                      options: [
+                        { label: 'Small', value: 'small' },
+                        { label: 'Medium', value: 'medium' },
+                        { label: 'Large', value: 'large' },
+                      ],
+                    },
+                    {
+                      name: 'textAlign',
+                      type: 'select',
+                      defaultValue: 'center',
+                      options: [
+                        { label: 'Left', value: 'left' },
+                        { label: 'Center', value: 'center' },
+                        { label: 'Right', value: 'right' },
+                      ],
+                    },
+                    {
+                      name: 'backgroundType',
+                      type: 'select',
+                      defaultValue: 'solid',
+                      options: [
+                        { label: 'None (Transparent)', value: 'none' },
+                        { label: 'Solid Color', value: 'solid' },
+                      ],
+                    },
+                    {
+                      name: 'backgroundColor',
+                      type: 'select',
+                      defaultValue: 'light',
+                      options: [
+                        { label: 'Light (Dark Grey)', value: 'light' },
+                        { label: 'Dark (Near Black)', value: 'dark' },
+                        { label: 'Accent (Blue-Grey)', value: 'accent' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // Bulk upload array (for quick photo uploads with shared settings)
+            {
+              name: 'images',
+              type: 'upload',
+              relationTo: 'media',
+              hasMany: true,
+              admin: {
+                description:
+                  'Upload multiple photos at once - they will share the film settings below',
+              },
+            },
+
+            // Shared film metadata for bulk uploads
+            {
+              name: 'isFilmPhoto',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark all bulk uploaded photos as film photographs',
+              },
+            },
+            {
+              name: 'filmType',
+              type: 'select',
+              options: [
+                { label: '35mm', value: '35mm' },
+                { label: '645 Medium Format', value: '645' },
+                { label: '6x6 Medium Format', value: '6x6' },
+                { label: '6x7 Medium Format', value: '6x7' },
+                { label: '6x9 Medium Format', value: '6x9' },
+                { label: 'Large Format 4x5', value: '4x5' },
+                { label: 'Large Format 8x10', value: '8x10' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film format used for all bulk uploaded photos',
+              },
+            },
+            {
+              name: 'filmStock',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                description: 'Film stock used for all bulk uploaded photos',
+              },
+            },
+            {
+              name: 'blackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Render all bulk uploaded photos in black and white',
+              },
+            },
+            {
+              name: 'applyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Apply film border to all bulk uploaded photos',
+              },
+            },
+            {
+              name: 'filmBorderNumber',
+              type: 'select',
+              options: [
+                { label: 'Border 1', value: '1' },
+                { label: 'Border 2', value: '2' },
+                { label: 'Border 3', value: '3' },
+                { label: 'Border 4', value: '4' },
+                { label: 'Border 5', value: '5' },
+                { label: 'Border 6', value: '6' },
+                { label: 'Border 7', value: '7' },
+                { label: 'Border 8', value: '8' },
+              ],
+              defaultValue: '1',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
+                description: 'Film border design for all bulk uploaded photos',
+              },
+            },
+          ],
+        },
+
+        // Block 4: Text Card (Full Width)
         {
           slug: 'textCard',
           labels: {
