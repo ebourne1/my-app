@@ -2,54 +2,41 @@
 
 import { useState } from 'react'
 import Masonry from '@mui/lab/Masonry'
+import PhotoCard from './PhotoCard'
 import PhotoModal from './PhotoModal'
 import type { Media } from '@/payload-types'
 
 interface BulkPhotos3AcrossProps {
   block: {
     blockType: 'photoBulk3Across'
-    // Individual items array
     items?: Array<{
-      blockType: 'gridPhoto' | 'gridTextCard'
+      blockType: 'gridPhoto' | 'gridPhotoBulk'
       id?: string
-      // Photo fields
+      // Single photo fields
       image?: Media | string
       caption?: string
+      // Bulk photos field
+      images?: (Media | string)[]
+      // Shared photo metadata
       isFilmPhoto?: boolean
       filmType?: string
       filmStock?: string
       blackAndWhite?: boolean
       applyFilmBorder?: boolean
       filmBorderNumber?: string
-      // Text card fields
-      content?: any
-      fontFamily?: string
-      fontSize?: string
-      textAlign?: string
-      backgroundType?: string
-      backgroundColor?: string
     }>
-    // Bulk upload array
-    images?: (Media | string)[]
-    // Shared metadata for bulk uploads
-    isFilmPhoto?: boolean
-    filmType?: string
-    filmStock?: string
-    blackAndWhite?: boolean
-    applyFilmBorder?: boolean
-    filmBorderNumber?: string
   }
 }
 
 /**
- * BulkPhotos3Across Component
+ * BulkPhotos3Across Component (Phase 1)
  *
- * Phase 1: Basic 3-column grid (section-break layout)
- * - 3 columns on desktop (≥768px), 1 column on mobile
- * - Supports bulk photo upload (images array with shared metadata)
- * - Supports individual items (items array for mixing photos + text cards)
- * - Text cards flow naturally with height-based balancing
- * - Photo lightbox/modal for clicking photos to view larger
+ * 3-column grid (section-break layout)
+ * - 3 columns desktop (≥768px), 1 column mobile
+ * - All items in single array for easy reordering
+ * - Supports individual photos and bulk photo uploads
+ * - Height-based masonry balancing
+ * - Photo lightbox/modal
  */
 export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<{
@@ -78,35 +65,61 @@ export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
     setSelectedPhoto(null)
   }
 
-  // Combine items and bulk upload arrays
-  let gridItems: any[] = []
+  // Flatten all items into individual photos
+  const photos: Array<{
+    image: Media
+    caption?: string
+    isFilmPhoto?: boolean
+    filmType?: string
+    filmStock?: string
+    blackAndWhite?: boolean
+    applyFilmBorder?: boolean
+    filmBorderNumber?: string
+    id: string
+  }> = []
 
-  // Add individual items if they exist
-  if (block.items && block.items.length > 0) {
-    gridItems = [...block.items]
-  }
+  block.items?.forEach((item, itemIndex) => {
+    if (item.blockType === 'gridPhoto') {
+      // Single photo
+      const image = typeof item.image === 'string' ? null : item.image
+      if (image) {
+        photos.push({
+          image,
+          caption: item.caption,
+          isFilmPhoto: item.isFilmPhoto,
+          filmType: item.filmType,
+          filmStock: item.filmStock,
+          blackAndWhite: item.blackAndWhite,
+          applyFilmBorder: item.applyFilmBorder,
+          filmBorderNumber: item.filmBorderNumber,
+          id: item.id || `photo-${itemIndex}`,
+        })
+      }
+    } else if (item.blockType === 'gridPhotoBulk' && item.images) {
+      // Bulk photos - flatten into individual photos
+      item.images.forEach((img, imgIndex) => {
+        const image = typeof img === 'string' ? null : img
+        if (image) {
+          photos.push({
+            image,
+            caption: undefined, // Bulk photos don't have individual captions
+            isFilmPhoto: item.isFilmPhoto,
+            filmType: item.filmType,
+            filmStock: item.filmStock,
+            blackAndWhite: item.blackAndWhite,
+            applyFilmBorder: item.applyFilmBorder,
+            filmBorderNumber: item.filmBorderNumber,
+            id: `${item.id || `bulk-${itemIndex}`}-${imgIndex}`,
+          })
+        }
+      })
+    }
+  })
 
-  // Add bulk uploaded photos if they exist
-  if (block.images && block.images.length > 0) {
-    const bulkPhotos = block.images.map((image, idx) => ({
-      blockType: 'gridPhoto',
-      image,
-      id: `bulk-${idx}`,
-      // Apply shared metadata from block level
-      isFilmPhoto: block.isFilmPhoto,
-      filmType: block.filmType,
-      filmStock: block.filmStock,
-      blackAndWhite: block.blackAndWhite,
-      applyFilmBorder: block.applyFilmBorder,
-      filmBorderNumber: block.filmBorderNumber,
-    }))
-    gridItems = [...gridItems, ...bulkPhotos]
-  }
-
-  if (gridItems.length === 0) {
+  if (photos.length === 0) {
     return (
       <div className="bulk-photos-3-across-empty">
-        <p>No photos or items added yet. Add items or upload photos in the admin panel.</p>
+        <p>No photos added yet. Add items in the admin panel.</p>
       </div>
     )
   }
@@ -119,141 +132,29 @@ export default function BulkPhotos3Across({ block }: BulkPhotos3AcrossProps) {
           spacing={{ xs: 1.5, sm: 1.5, md: 1.5 }}
           className="masonry-grid-3-column"
         >
-          {gridItems.map((item, index) => {
-            const key = item.id || `item-${index}`
-
-            // Render photo
-            if (item.blockType === 'gridPhoto') {
-              const image = typeof item.image === 'string' ? null : item.image
-              if (!image) return null
-
-              // Import PhotoCard dynamically to render
-              return (
-                <PhotoCardWrapper
-                  key={key}
-                  image={image}
-                  caption={item.caption}
-                  isFilmPhoto={item.isFilmPhoto}
-                  filmType={item.filmType}
-                  filmStock={item.filmStock}
-                  blackAndWhite={item.blackAndWhite}
-                  applyFilmBorder={item.applyFilmBorder}
-                  filmBorderNumber={item.filmBorderNumber}
-                  priority={index < 3} // First 3 items get priority loading
-                  onPhotoClick={handlePhotoClick}
-                />
-              )
-            }
-
-            // Render text card
-            if (item.blockType === 'gridTextCard') {
-              return (
-                <TextCardWrapper
-                  key={key}
-                  content={item.content}
-                  fontFamily={item.fontFamily}
-                  fontSize={item.fontSize}
-                  textAlign={item.textAlign}
-                  backgroundType={item.backgroundType}
-                  backgroundColor={item.backgroundColor}
-                />
-              )
-            }
-
-            return null
-          })}
+          {photos.map((photo, index) => (
+            <PhotoCard
+              key={photo.id}
+              block={{
+                blockType: 'photo',
+                image: photo.image,
+                caption: photo.caption,
+                isFilmPhoto: photo.isFilmPhoto,
+                filmType: photo.filmType,
+                filmStock: photo.filmStock,
+                blackAndWhite: photo.blackAndWhite,
+                applyFilmBorder: photo.applyFilmBorder,
+                filmBorderNumber: photo.filmBorderNumber,
+              }}
+              priority={index < 3} // First 3 photos get priority loading
+              onPhotoClick={handlePhotoClick}
+            />
+          ))}
         </Masonry>
       </div>
 
       {/* Photo Modal */}
       <PhotoModal isOpen={!!selectedPhoto} onClose={handleCloseModal} photo={selectedPhoto} />
     </>
-  )
-}
-
-/**
- * PhotoCardWrapper - Wrapper to render individual photo in 3-column grid
- * Uses same PhotoCard component as 2-column masonry
- */
-function PhotoCardWrapper({
-  image,
-  caption,
-  isFilmPhoto,
-  filmType,
-  filmStock,
-  blackAndWhite,
-  applyFilmBorder,
-  filmBorderNumber,
-  priority,
-  onPhotoClick,
-}: {
-  image: Media
-  caption?: string
-  isFilmPhoto?: boolean
-  filmType?: string
-  filmStock?: string
-  blackAndWhite?: boolean
-  applyFilmBorder?: boolean
-  filmBorderNumber?: string
-  priority: boolean
-  onPhotoClick: (photo: any) => void
-}) {
-  // Import PhotoCard component
-  const PhotoCard = require('./PhotoCard').default
-
-  return (
-    <PhotoCard
-      block={{
-        blockType: 'photo',
-        image,
-        caption,
-        isFilmPhoto,
-        filmType,
-        filmStock,
-        blackAndWhite,
-        applyFilmBorder,
-        filmBorderNumber,
-      }}
-      priority={priority}
-      onPhotoClick={onPhotoClick}
-    />
-  )
-}
-
-/**
- * TextCardWrapper - Wrapper to render text card in 3-column grid
- * Uses same TextCardSmall component as 2-column masonry
- */
-function TextCardWrapper({
-  content,
-  fontFamily,
-  fontSize,
-  textAlign,
-  backgroundType,
-  backgroundColor,
-}: {
-  content: any
-  fontFamily?: string
-  fontSize?: string
-  textAlign?: string
-  backgroundType?: string
-  backgroundColor?: string
-}) {
-  // Import TextCardSmall component
-  const TextCardSmall = require('./TextCardSmall').default
-
-  return (
-    <TextCardSmall
-      block={{
-        blockType: 'textCardSmall',
-        content,
-        fontFamily: fontFamily as any,
-        fontSize: fontSize as any,
-        textAlign: textAlign as any,
-        backgroundType: backgroundType as any,
-        backgroundColor: backgroundColor as any,
-      }}
-      isFirstInMasonry={false}
-    />
   )
 }

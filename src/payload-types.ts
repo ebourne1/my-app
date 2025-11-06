@@ -391,6 +391,46 @@ export interface Gallery {
           }
         | {
             /**
+             * Add photos and text cards. Drag to reorder.
+             */
+            items?:
+              | (
+                  | {
+                      image: number | Media;
+                      caption?: string | null;
+                      isFilmPhoto?: boolean | null;
+                      filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+                      filmStock?: string | null;
+                      blackAndWhite?: boolean | null;
+                      applyFilmBorder?: boolean | null;
+                      filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'gridPhoto';
+                    }
+                  | {
+                      /**
+                       * Upload multiple photos - they will share the settings below
+                       */
+                      images: (number | Media)[];
+                      isFilmPhoto?: boolean | null;
+                      filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+                      filmStock?: string | null;
+                      blackAndWhite?: boolean | null;
+                      applyFilmBorder?: boolean | null;
+                      filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'gridPhotoBulk';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'photoBulk3Across';
+          }
+        | {
+            /**
              * Text content for storytelling or context. Displays full-width. Supports hyperlinks and rich formatting.
              */
             content: {
@@ -655,6 +695,43 @@ export interface GallerySelect<T extends boolean = true> {
               blackAndWhite?: T;
               applyFilmBorder?: T;
               filmBorderNumber?: T;
+              id?: T;
+              blockName?: T;
+            };
+        photoBulk3Across?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    gridPhoto?:
+                      | T
+                      | {
+                          image?: T;
+                          caption?: T;
+                          isFilmPhoto?: T;
+                          filmType?: T;
+                          filmStock?: T;
+                          blackAndWhite?: T;
+                          applyFilmBorder?: T;
+                          filmBorderNumber?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    gridPhotoBulk?:
+                      | T
+                      | {
+                          images?: T;
+                          isFilmPhoto?: T;
+                          filmType?: T;
+                          filmStock?: T;
+                          blackAndWhite?: T;
+                          applyFilmBorder?: T;
+                          filmBorderNumber?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
               id?: T;
               blockName?: T;
             };

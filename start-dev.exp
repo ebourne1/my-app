@@ -1,0 +1,34 @@
+#!/usr/bin/expect -f
+
+# Set timeout
+set timeout 300
+
+# Start the dev server
+spawn npm run dev
+
+# Handle migration prompts
+expect {
+    "table created or renamed" {
+        send "\r"
+        exp_continue
+    }
+    "Accept warnings and push schema to database" {
+        send "y\r"
+        exp_continue
+    }
+    "Ready in" {
+        # Server is ready, keep running
+        exp_continue
+    }
+    timeout {
+        exp_continue
+    }
+    eof {
+        # If process exits, restart
+        spawn npm run dev
+        exp_continue
+    }
+}
+
+# Keep the process running
+interact

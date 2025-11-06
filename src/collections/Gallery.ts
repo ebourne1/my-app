@@ -555,17 +555,15 @@ export const Gallery: CollectionConfig = {
             plural: '3-Column Grids',
           },
           fields: [
-            // Individual items array (for mixing photos and text cards)
             {
               name: 'items',
               type: 'blocks',
-              minRows: 0,
+              minRows: 1,
               admin: {
-                description:
-                  'Add individual photos or text cards with full control over each item. Drag to reorder.',
+                description: 'Add photos and text cards. Drag to reorder.',
               },
               blocks: [
-                // Nested block: Grid Photo
+                // Individual Photo
                 {
                   slug: 'gridPhoto',
                   labels: {
@@ -641,160 +639,83 @@ export const Gallery: CollectionConfig = {
                     },
                   ],
                 },
-                // Nested block: Grid Text Card
+                // Bulk Photos
                 {
-                  slug: 'gridTextCard',
+                  slug: 'gridPhotoBulk',
                   labels: {
-                    singular: 'Text Card',
-                    plural: 'Text Cards',
+                    singular: 'Bulk Photos',
+                    plural: 'Bulk Photos',
                   },
                   fields: [
                     {
-                      name: 'content',
-                      type: 'richText',
+                      name: 'images',
+                      type: 'upload',
+                      relationTo: 'media',
+                      hasMany: true,
                       required: true,
-                      editor: lexicalEditor({
-                        features: ({ defaultFeatures }) => defaultFeatures,
-                      }),
+                      admin: {
+                        description: 'Upload multiple photos - they will share the settings below',
+                      },
                     },
                     {
-                      name: 'fontFamily',
-                      type: 'select',
-                      defaultValue: 'inter',
-                      options: [
-                        { label: 'Inter (Sans Serif)', value: 'inter' },
-                        { label: 'Playfair Display (Serif)', value: 'playfair' },
-                        { label: 'Bebas Neue (Display)', value: 'bebas' },
-                        { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
-                      ],
+                      name: 'isFilmPhoto',
+                      type: 'checkbox',
+                      defaultValue: false,
                     },
                     {
-                      name: 'fontSize',
+                      name: 'filmType',
                       type: 'select',
-                      defaultValue: 'medium',
                       options: [
-                        { label: 'Small', value: 'small' },
-                        { label: 'Medium', value: 'medium' },
-                        { label: 'Large', value: 'large' },
-                      ],
-                    },
-                    {
-                      name: 'textAlign',
-                      type: 'select',
-                      defaultValue: 'center',
-                      options: [
-                        { label: 'Left', value: 'left' },
-                        { label: 'Center', value: 'center' },
-                        { label: 'Right', value: 'right' },
-                      ],
-                    },
-                    {
-                      name: 'backgroundType',
-                      type: 'select',
-                      defaultValue: 'solid',
-                      options: [
-                        { label: 'None (Transparent)', value: 'none' },
-                        { label: 'Solid Color', value: 'solid' },
-                      ],
-                    },
-                    {
-                      name: 'backgroundColor',
-                      type: 'select',
-                      defaultValue: 'light',
-                      options: [
-                        { label: 'Light (Dark Grey)', value: 'light' },
-                        { label: 'Dark (Near Black)', value: 'dark' },
-                        { label: 'Accent (Blue-Grey)', value: 'accent' },
+                        { label: '35mm', value: '35mm' },
+                        { label: '645 Medium Format', value: '645' },
+                        { label: '6x6 Medium Format', value: '6x6' },
+                        { label: '6x7 Medium Format', value: '6x7' },
+                        { label: '6x9 Medium Format', value: '6x9' },
+                        { label: 'Large Format 4x5', value: '4x5' },
+                        { label: 'Large Format 8x10', value: '8x10' },
                       ],
                       admin: {
-                        condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'filmStock',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
+                      },
+                    },
+                    {
+                      name: 'blackAndWhite',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'applyFilmBorder',
+                      type: 'checkbox',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'filmBorderNumber',
+                      type: 'select',
+                      options: [
+                        { label: 'Border 1', value: '1' },
+                        { label: 'Border 2', value: '2' },
+                        { label: 'Border 3', value: '3' },
+                        { label: 'Border 4', value: '4' },
+                        { label: 'Border 5', value: '5' },
+                        { label: 'Border 6', value: '6' },
+                        { label: 'Border 7', value: '7' },
+                        { label: 'Border 8', value: '8' },
+                      ],
+                      defaultValue: '1',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
                       },
                     },
                   ],
                 },
               ],
-            },
-
-            // Bulk upload array (for quick photo uploads with shared settings)
-            {
-              name: 'images',
-              type: 'upload',
-              relationTo: 'media',
-              hasMany: true,
-              admin: {
-                description:
-                  'Upload multiple photos at once - they will share the film settings below',
-              },
-            },
-
-            // Shared film metadata for bulk uploads
-            {
-              name: 'isFilmPhoto',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Mark all bulk uploaded photos as film photographs',
-              },
-            },
-            {
-              name: 'filmType',
-              type: 'select',
-              options: [
-                { label: '35mm', value: '35mm' },
-                { label: '645 Medium Format', value: '645' },
-                { label: '6x6 Medium Format', value: '6x6' },
-                { label: '6x7 Medium Format', value: '6x7' },
-                { label: '6x9 Medium Format', value: '6x9' },
-                { label: 'Large Format 4x5', value: '4x5' },
-                { label: 'Large Format 8x10', value: '8x10' },
-              ],
-              admin: {
-                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
-                description: 'Film format used for all bulk uploaded photos',
-              },
-            },
-            {
-              name: 'filmStock',
-              type: 'text',
-              admin: {
-                condition: (_data, siblingData) => siblingData?.isFilmPhoto === true,
-                description: 'Film stock used for all bulk uploaded photos',
-              },
-            },
-            {
-              name: 'blackAndWhite',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Render all bulk uploaded photos in black and white',
-              },
-            },
-            {
-              name: 'applyFilmBorder',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Apply film border to all bulk uploaded photos',
-              },
-            },
-            {
-              name: 'filmBorderNumber',
-              type: 'select',
-              options: [
-                { label: 'Border 1', value: '1' },
-                { label: 'Border 2', value: '2' },
-                { label: 'Border 3', value: '3' },
-                { label: 'Border 4', value: '4' },
-                { label: 'Border 5', value: '5' },
-                { label: 'Border 6', value: '6' },
-                { label: 'Border 7', value: '7' },
-                { label: 'Border 8', value: '8' },
-              ],
-              defaultValue: '1',
-              admin: {
-                condition: (_data, siblingData) => siblingData?.applyFilmBorder === true,
-                description: 'Film border design for all bulk uploaded photos',
-              },
             },
           ],
         },
