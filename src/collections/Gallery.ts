@@ -715,6 +715,175 @@ export const Gallery: CollectionConfig = {
                     },
                   ],
                 },
+                // Text Card (Small)
+                {
+                  slug: 'gridTextCard',
+                  labels: {
+                    singular: 'Text Card',
+                    plural: 'Text Cards',
+                  },
+                  fields: [
+                    {
+                      name: 'content',
+                      type: 'richText',
+                      required: true,
+                      editor: lexicalEditor({
+                        features: ({ defaultFeatures }) => defaultFeatures,
+                      }),
+                      admin: {
+                        description: 'Text content with rich formatting and hyperlinks',
+                      },
+                    },
+                    // Typography Controls
+                    {
+                      name: 'fontFamily',
+                      type: 'select',
+                      defaultValue: 'inter',
+                      options: [
+                        { label: 'Inter (Sans Serif)', value: 'inter' },
+                        { label: 'Playfair Display (Serif)', value: 'playfair' },
+                        { label: 'Bebas Neue (Display)', value: 'bebas' },
+                        { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                        { label: 'JetBrains Mono (Monospace)', value: 'monospace' },
+                      ],
+                    },
+                    {
+                      name: 'fontSize',
+                      type: 'select',
+                      defaultValue: 'small',
+                      options: [
+                        { label: 'Small', value: 'small' },
+                        { label: 'Medium', value: 'medium' },
+                        { label: 'Large', value: 'large' },
+                        { label: 'Extra Large', value: 'xl' },
+                      ],
+                    },
+                    {
+                      name: 'fontWeight',
+                      type: 'select',
+                      defaultValue: 'normal',
+                      options: [
+                        { label: 'Light (300)', value: 'light' },
+                        { label: 'Normal (400)', value: 'normal' },
+                        { label: 'Medium (500)', value: 'medium' },
+                        { label: 'Semibold (600)', value: 'semibold' },
+                        { label: 'Bold (700)', value: 'bold' },
+                      ],
+                    },
+                    {
+                      name: 'lineHeight',
+                      type: 'select',
+                      defaultValue: 'normal',
+                      options: [
+                        { label: 'Tight (1.4)', value: 'tight' },
+                        { label: 'Normal (1.6)', value: 'normal' },
+                        { label: 'Relaxed (1.8)', value: 'relaxed' },
+                        { label: 'Loose (2.0)', value: 'loose' },
+                      ],
+                    },
+                    {
+                      name: 'letterSpacing',
+                      type: 'select',
+                      defaultValue: 'normal',
+                      options: [
+                        { label: 'Tight (-0.025em)', value: 'tight' },
+                        { label: 'Normal (0)', value: 'normal' },
+                        { label: 'Wide (0.05em)', value: 'wide' },
+                      ],
+                    },
+                    {
+                      name: 'textAlign',
+                      type: 'select',
+                      defaultValue: 'center',
+                      options: [
+                        { label: 'Left', value: 'left' },
+                        { label: 'Center', value: 'center' },
+                        { label: 'Right', value: 'right' },
+                        { label: 'Justify', value: 'justify' },
+                      ],
+                    },
+                    // Background Configuration
+                    {
+                      name: 'backgroundType',
+                      type: 'select',
+                      defaultValue: 'solid',
+                      options: [
+                        { label: 'None (Transparent)', value: 'none' },
+                        { label: 'Solid Color', value: 'solid' },
+                        { label: 'Image', value: 'image' },
+                      ],
+                    },
+                    {
+                      name: 'backgroundColor',
+                      type: 'select',
+                      defaultValue: 'light',
+                      options: [
+                        { label: 'Light (Dark Grey)', value: 'light' },
+                        { label: 'Dark (Near Black)', value: 'dark' },
+                        { label: 'Accent (Blue-Grey)', value: 'accent' },
+                        { label: 'Custom Color', value: 'custom' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+                      },
+                    },
+                    {
+                      name: 'customBackgroundColor',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) =>
+                          siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                      },
+                    },
+                    {
+                      name: 'customTextColor',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) =>
+                          siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+                      },
+                    },
+                    {
+                      name: 'backgroundImage',
+                      type: 'upload',
+                      relationTo: 'media',
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                      },
+                    },
+                    {
+                      name: 'overlayColor',
+                      type: 'select',
+                      defaultValue: 'dark',
+                      options: [
+                        { label: 'Dark Overlay', value: 'dark' },
+                        { label: 'Light Overlay', value: 'light' },
+                        { label: 'Custom Overlay', value: 'custom' },
+                      ],
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                      },
+                    },
+                    {
+                      name: 'customOverlayColor',
+                      type: 'text',
+                      admin: {
+                        condition: (_data, siblingData) =>
+                          siblingData?.backgroundType === 'image' && siblingData?.overlayColor === 'custom',
+                      },
+                    },
+                    {
+                      name: 'overlayOpacity',
+                      type: 'number',
+                      defaultValue: 70,
+                      min: 0,
+                      max: 100,
+                      admin: {
+                        condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+                      },
+                    },
+                  ],
+                },
               ],
             },
           ],

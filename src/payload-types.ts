@@ -423,6 +423,43 @@ export interface Gallery {
                       blockName?: string | null;
                       blockType: 'gridPhotoBulk';
                     }
+                  | {
+                      /**
+                       * Text content with rich formatting and hyperlinks
+                       */
+                      content: {
+                        root: {
+                          type: string;
+                          children: {
+                            type: any;
+                            version: number;
+                            [k: string]: unknown;
+                          }[];
+                          direction: ('ltr' | 'rtl') | null;
+                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                          indent: number;
+                          version: number;
+                        };
+                        [k: string]: unknown;
+                      };
+                      fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
+                      fontSize?: ('small' | 'medium' | 'large' | 'xl') | null;
+                      fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
+                      lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
+                      letterSpacing?: ('tight' | 'normal' | 'wide') | null;
+                      textAlign?: ('left' | 'center' | 'right' | 'justify') | null;
+                      backgroundType?: ('none' | 'solid' | 'image') | null;
+                      backgroundColor?: ('light' | 'dark' | 'accent' | 'custom') | null;
+                      customBackgroundColor?: string | null;
+                      customTextColor?: string | null;
+                      backgroundImage?: (number | null) | Media;
+                      overlayColor?: ('dark' | 'light' | 'custom') | null;
+                      customOverlayColor?: string | null;
+                      overlayOpacity?: number | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'gridTextCard';
+                    }
                 )[]
               | null;
             id?: string | null;
@@ -728,6 +765,27 @@ export interface GallerySelect<T extends boolean = true> {
                           blackAndWhite?: T;
                           applyFilmBorder?: T;
                           filmBorderNumber?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    gridTextCard?:
+                      | T
+                      | {
+                          content?: T;
+                          fontFamily?: T;
+                          fontSize?: T;
+                          fontWeight?: T;
+                          lineHeight?: T;
+                          letterSpacing?: T;
+                          textAlign?: T;
+                          backgroundType?: T;
+                          backgroundColor?: T;
+                          customBackgroundColor?: T;
+                          customTextColor?: T;
+                          backgroundImage?: T;
+                          overlayColor?: T;
+                          customOverlayColor?: T;
+                          overlayOpacity?: T;
                           id?: T;
                           blockName?: T;
                         };

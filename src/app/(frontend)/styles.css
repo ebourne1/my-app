@@ -972,20 +972,20 @@ svg {
 
 /* Featured Photo Independent Positioning Controls */
 
-/* Text horizontal alignment */
-.text-align-left {
+/* Text horizontal alignment - only apply positioning to overlay text containers */
+.overlay-text-container.text-align-left {
   left: 0;
   right: auto;
   text-align: left;
 }
 
-.text-align-center {
+.overlay-text-container.text-align-center {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
 }
 
-.text-align-right {
+.overlay-text-container.text-align-right {
   left: auto;
   right: 0;
   text-align: right;
@@ -1017,15 +1017,15 @@ svg {
   bottom: 0;
 }
 
-.text-position-top.text-align-center,
-.text-position-top-third.text-align-center,
-.text-position-center.text-align-center,
-.text-position-bottom-third.text-align-center,
-.text-position-bottom.text-align-center {
+.overlay-text-container.text-position-top.text-align-center,
+.overlay-text-container.text-position-top-third.text-align-center,
+.overlay-text-container.text-position-center.text-align-center,
+.overlay-text-container.text-position-bottom-third.text-align-center,
+.overlay-text-container.text-position-bottom.text-align-center {
   transform: translate(-50%, 0);
 }
 
-.text-position-center.text-align-center {
+.overlay-text-container.text-position-center.text-align-center {
   transform: translate(-50%, -50%);
 }
 
@@ -1063,18 +1063,18 @@ svg {
   }
 }
 
-/* Button horizontal alignment */
-.button-align-left {
+/* Button horizontal alignment - only apply positioning to overlay button containers */
+.overlay-button-container.button-align-left {
   left: 0;
   right: auto;
 }
 
-.button-align-center {
+.overlay-button-container.button-align-center {
   left: 50%;
   transform: translateX(-50%);
 }
 
-.button-align-right {
+.overlay-button-container.button-align-right {
   left: auto;
   right: 0;
 }
@@ -1105,15 +1105,15 @@ svg {
   bottom: 0;
 }
 
-.button-position-top.button-align-center,
-.button-position-top-third.button-align-center,
-.button-position-center.button-align-center,
-.button-position-bottom-third.button-align-center,
-.button-position-bottom.button-align-center {
+.overlay-button-container.button-position-top.button-align-center,
+.overlay-button-container.button-position-top-third.button-align-center,
+.overlay-button-container.button-position-center.button-align-center,
+.overlay-button-container.button-position-bottom-third.button-align-center,
+.overlay-button-container.button-position-bottom.button-align-center {
   transform: translate(-50%, 0);
 }
 
-.button-position-center.button-align-center {
+.overlay-button-container.button-position-center.button-align-center {
   transform: translate(-50%, -50%);
 }
 
@@ -1481,6 +1481,7 @@ svg {
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
 
   @media (max-width: 768px) {
     padding: 1.25rem;
@@ -1490,8 +1491,10 @@ svg {
 
 .text-card-small-content {
   width: 100%;
+  max-width: 100%;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  box-sizing: border-box;
 
   h1,
   h2,
@@ -1530,14 +1533,11 @@ svg {
   p {
     font-size: 0.9rem;
     line-height: 1.6;
-    margin: 0 0 1rem 0;
+    margin: 0;
+    padding: 0;
 
     @media (max-width: 768px) {
       font-size: 0.85rem;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
     }
   }
 
