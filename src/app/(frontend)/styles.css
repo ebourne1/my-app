@@ -1479,6 +1479,8 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     padding: 1.25rem;
@@ -1488,6 +1490,8 @@ svg {
 
 .text-card-small-content {
   width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   h1,
   h2,
@@ -1555,22 +1559,6 @@ svg {
 
   em {
     font-style: italic;
-  }
-}
-
-/* Small Text Card - First in 3-Column Grid
-   On large screens (md+), center it at top center column
-   MUI Masonry uses column-wrap flexbox, so we need to break the column flow */
-.bulk-photos-3-across .text-card-small.first-in-masonry,
-.mixed-grid-3-across .text-card-small.first-in-masonry {
-  @media (min-width: 768px) {
-    /* Force this item to take full width and break column flow */
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 400px !important;
-    margin: 0 auto 2rem !important;
-    order: -999 !important; /* Ensure it appears absolutely first */
-    align-self: center !important;
   }
 }
 

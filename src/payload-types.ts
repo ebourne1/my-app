@@ -279,85 +279,6 @@ export interface Gallery {
           }
         | {
             /**
-             * Add photos and small text cards with individual control over each item. For bulk photo upload with shared settings, use the "images" field below.
-             */
-            items?:
-              | (
-                  | {
-                      image: number | Media;
-                      caption?: string | null;
-                      isFilmPhoto?: boolean | null;
-                      filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
-                      filmStock?: string | null;
-                      blackAndWhite?: boolean | null;
-                      applyFilmBorder?: boolean | null;
-                      filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'gridPhoto';
-                    }
-                  | {
-                      content: {
-                        root: {
-                          type: string;
-                          children: {
-                            type: any;
-                            version: number;
-                            [k: string]: unknown;
-                          }[];
-                          direction: ('ltr' | 'rtl') | null;
-                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                          indent: number;
-                          version: number;
-                        };
-                        [k: string]: unknown;
-                      };
-                      fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
-                      fontSize?: ('small' | 'medium' | 'large') | null;
-                      fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
-                      textAlign?: ('left' | 'center' | 'right') | null;
-                      backgroundType?: ('none' | 'solid') | null;
-                      backgroundColor?: ('light' | 'dark' | 'accent') | null;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'gridTextCard';
-                    }
-                )[]
-              | null;
-            /**
-             * Bulk photo upload - all photos will share the film metadata settings below. For individual control over each photo, use the "items" field above instead.
-             */
-            images?: (number | Media)[] | null;
-            /**
-             * Mark all photos in this batch as film photographs
-             */
-            isFilmPhoto?: boolean | null;
-            /**
-             * Film format used for all photos in this batch
-             */
-            filmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
-            /**
-             * Film stock used (e.g., "Kodak Gold 200", "Portra 400", "HP5 Plus")
-             */
-            filmStock?: string | null;
-            /**
-             * Render all photos in this batch in black and white (grayscale filter)
-             */
-            blackAndWhite?: boolean | null;
-            /**
-             * Apply a film border overlay to all photos in this batch
-             */
-            applyFilmBorder?: boolean | null;
-            /**
-             * Select which film border design to apply to all photos (1-8)
-             */
-            filmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'photoBulk3Across';
-          }
-        | {
-            /**
              * Featured photo - displays full-width across the page
              */
             image: number | Media;
@@ -686,50 +607,6 @@ export interface GallerySelect<T extends boolean = true> {
         photoBulk?:
           | T
           | {
-              images?: T;
-              isFilmPhoto?: T;
-              filmType?: T;
-              filmStock?: T;
-              blackAndWhite?: T;
-              applyFilmBorder?: T;
-              filmBorderNumber?: T;
-              id?: T;
-              blockName?: T;
-            };
-        photoBulk3Across?:
-          | T
-          | {
-              items?:
-                | T
-                | {
-                    gridPhoto?:
-                      | T
-                      | {
-                          image?: T;
-                          caption?: T;
-                          isFilmPhoto?: T;
-                          filmType?: T;
-                          filmStock?: T;
-                          blackAndWhite?: T;
-                          applyFilmBorder?: T;
-                          filmBorderNumber?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                    gridTextCard?:
-                      | T
-                      | {
-                          content?: T;
-                          fontFamily?: T;
-                          fontSize?: T;
-                          fontWeight?: T;
-                          textAlign?: T;
-                          backgroundType?: T;
-                          backgroundColor?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
               images?: T;
               isFilmPhoto?: T;
               filmType?: T;
