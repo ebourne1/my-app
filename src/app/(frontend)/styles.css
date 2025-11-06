@@ -1930,3 +1930,116 @@ svg {
     height: 180px;
   }
 }
+
+/* ========================================
+   Three-Across Row (Photo | Text | Photo)
+   ======================================== */
+
+.three-across-row {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.three-across-row-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgb(150, 150, 150);
+}
+
+/* Desktop: 3-column grid with dynamic uniform height */
+@media (min-width: 768px) {
+  .three-across-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .three-across-row-photo-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgb(20, 20, 20);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .three-across-row-photo-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .three-across-row-photo-wrapper:active {
+    transform: translateY(0);
+  }
+
+  .three-across-row-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .three-across-row-photo.grayscale {
+    filter: grayscale(100%);
+  }
+
+  .three-across-row-text {
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .three-across-row-text-measure {
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+}
+
+/* Mobile: stacked vertically with text first */
+@media (max-width: 767px) {
+  .three-across-row-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Text appears first */
+  .three-across-row-text {
+    order: -1;
+    padding: 1.25rem;
+    border-radius: 8px;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Hide the measurement div on mobile */
+  .three-across-row-text-measure {
+    display: none;
+  }
+
+  .three-across-row-photo-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgb(20, 20, 20);
+  }
+
+  .three-across-row-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .three-across-row-photo.grayscale {
+    filter: grayscale(100%);
+  }
+}

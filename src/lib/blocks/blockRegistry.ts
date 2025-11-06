@@ -16,6 +16,7 @@ import FeaturedPhoto from '@/components/gallery/FeaturedPhoto'
 import TextCard from '@/components/gallery/TextCard'
 import TextCardSmall from '@/components/gallery/TextCardSmall'
 import BulkPhotos3Across from '@/components/gallery/BulkPhotos3Across'
+import ThreeAcrossRow from '@/components/gallery/ThreeAcrossRow'
 
 /**
  * Block Registry - maps block types to their rendering configuration
@@ -50,6 +51,12 @@ export const BLOCK_REGISTRY: Record<string, BlockConfig> = {
   photoBulk3Across: {
     slug: 'photoBulk3Across',
     component: BulkPhotos3Across,
+    layout: 'section-break',
+    priority: false,
+  },
+  threeAcrossRow: {
+    slug: 'threeAcrossRow',
+    component: ThreeAcrossRow,
     layout: 'section-break',
     priority: false,
   },

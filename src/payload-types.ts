@@ -468,6 +468,77 @@ export interface Gallery {
           }
         | {
             /**
+             * Left photo in the row
+             */
+            leftImage: number | Media;
+            /**
+             * Right photo in the row
+             */
+            rightImage: number | Media;
+            /**
+             * Text content for the center card (desktop: photo | text | photo, mobile: stacked)
+             */
+            textContent: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            fontFamily?: ('inter' | 'playfair' | 'bebas' | 'lobster-two' | 'monospace') | null;
+            fontSize?: ('small' | 'medium' | 'large' | 'xl') | null;
+            fontWeight?: ('light' | 'normal' | 'medium' | 'semibold' | 'bold') | null;
+            lineHeight?: ('tight' | 'normal' | 'relaxed' | 'loose') | null;
+            letterSpacing?: ('tight' | 'normal' | 'wide') | null;
+            textAlign?: ('left' | 'center' | 'right' | 'justify') | null;
+            backgroundType?: ('none' | 'solid' | 'image') | null;
+            backgroundColor?: ('light' | 'dark' | 'accent' | 'custom') | null;
+            customBackgroundColor?: string | null;
+            customTextColor?: string | null;
+            backgroundImage?: (number | null) | Media;
+            overlayColor?: ('dark' | 'light' | 'custom') | null;
+            customOverlayColor?: string | null;
+            overlayOpacity?: number | null;
+            /**
+             * Optional caption for left photo (shown in modal)
+             */
+            leftPhotoCaption?: string | null;
+            /**
+             * Mark left photo as film photograph
+             */
+            leftPhotoIsFilm?: boolean | null;
+            leftPhotoFilmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+            leftPhotoFilmStock?: string | null;
+            leftPhotoBlackAndWhite?: boolean | null;
+            leftPhotoApplyFilmBorder?: boolean | null;
+            leftPhotoFilmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
+            /**
+             * Optional caption for right photo (shown in modal)
+             */
+            rightPhotoCaption?: string | null;
+            /**
+             * Mark right photo as film photograph
+             */
+            rightPhotoIsFilm?: boolean | null;
+            rightPhotoFilmType?: ('35mm' | '645' | '6x6' | '6x7' | '6x9' | '4x5' | '8x10') | null;
+            rightPhotoFilmStock?: string | null;
+            rightPhotoBlackAndWhite?: boolean | null;
+            rightPhotoApplyFilmBorder?: boolean | null;
+            rightPhotoFilmBorderNumber?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'threeAcrossRow';
+          }
+        | {
+            /**
              * Text content for storytelling or context. Displays full-width. Supports hyperlinks and rich formatting.
              */
             content: {
@@ -790,6 +861,43 @@ export interface GallerySelect<T extends boolean = true> {
                           blockName?: T;
                         };
                   };
+              id?: T;
+              blockName?: T;
+            };
+        threeAcrossRow?:
+          | T
+          | {
+              leftImage?: T;
+              rightImage?: T;
+              textContent?: T;
+              fontFamily?: T;
+              fontSize?: T;
+              fontWeight?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textAlign?: T;
+              backgroundType?: T;
+              backgroundColor?: T;
+              customBackgroundColor?: T;
+              customTextColor?: T;
+              backgroundImage?: T;
+              overlayColor?: T;
+              customOverlayColor?: T;
+              overlayOpacity?: T;
+              leftPhotoCaption?: T;
+              leftPhotoIsFilm?: T;
+              leftPhotoFilmType?: T;
+              leftPhotoFilmStock?: T;
+              leftPhotoBlackAndWhite?: T;
+              leftPhotoApplyFilmBorder?: T;
+              leftPhotoFilmBorderNumber?: T;
+              rightPhotoCaption?: T;
+              rightPhotoIsFilm?: T;
+              rightPhotoFilmType?: T;
+              rightPhotoFilmStock?: T;
+              rightPhotoBlackAndWhite?: T;
+              rightPhotoApplyFilmBorder?: T;
+              rightPhotoFilmBorderNumber?: T;
               id?: T;
               blockName?: T;
             };

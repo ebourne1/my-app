@@ -889,7 +889,335 @@ export const Gallery: CollectionConfig = {
           ],
         },
 
-        // Block 4: Text Card (Full Width)
+        // Block 4: Three-Wide Row with Center Text
+        {
+          slug: 'threeAcrossRow',
+          labels: {
+            singular: 'Three-Wide Row',
+            plural: 'Three-Wide Rows',
+          },
+          fields: [
+            {
+              name: 'leftImage',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              admin: {
+                description: 'Left photo in the row',
+              },
+            },
+            {
+              name: 'rightImage',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              admin: {
+                description: 'Right photo in the row',
+              },
+            },
+            {
+              name: 'textContent',
+              type: 'richText',
+              required: true,
+              editor: lexicalEditor({
+                features: ({ defaultFeatures }) => defaultFeatures,
+              }),
+              admin: {
+                description: 'Text content for the center card (desktop: photo | text | photo, mobile: stacked)',
+              },
+            },
+
+            // Typography Controls
+            {
+              name: 'fontFamily',
+              type: 'select',
+              defaultValue: 'inter',
+              options: [
+                { label: 'Inter (Sans Serif)', value: 'inter' },
+                { label: 'Playfair Display (Serif)', value: 'playfair' },
+                { label: 'Bebas Neue (Display)', value: 'bebas' },
+                { label: 'Lobster Two Bold Italic', value: 'lobster-two' },
+                { label: 'JetBrains Mono (Monospace)', value: 'monospace' },
+              ],
+            },
+            {
+              name: 'fontSize',
+              type: 'select',
+              defaultValue: 'small',
+              options: [
+                { label: 'Small', value: 'small' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Large', value: 'large' },
+                { label: 'Extra Large', value: 'xl' },
+              ],
+            },
+            {
+              name: 'fontWeight',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Light (300)', value: 'light' },
+                { label: 'Normal (400)', value: 'normal' },
+                { label: 'Medium (500)', value: 'medium' },
+                { label: 'Semibold (600)', value: 'semibold' },
+                { label: 'Bold (700)', value: 'bold' },
+              ],
+            },
+            {
+              name: 'lineHeight',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Tight (1.4)', value: 'tight' },
+                { label: 'Normal (1.6)', value: 'normal' },
+                { label: 'Relaxed (1.8)', value: 'relaxed' },
+                { label: 'Loose (2.0)', value: 'loose' },
+              ],
+            },
+            {
+              name: 'letterSpacing',
+              type: 'select',
+              defaultValue: 'normal',
+              options: [
+                { label: 'Tight (-0.025em)', value: 'tight' },
+                { label: 'Normal (0)', value: 'normal' },
+                { label: 'Wide (0.05em)', value: 'wide' },
+              ],
+            },
+            {
+              name: 'textAlign',
+              type: 'select',
+              defaultValue: 'center',
+              options: [
+                { label: 'Left', value: 'left' },
+                { label: 'Center', value: 'center' },
+                { label: 'Right', value: 'right' },
+                { label: 'Justify', value: 'justify' },
+              ],
+            },
+
+            // Background Configuration
+            {
+              name: 'backgroundType',
+              type: 'select',
+              defaultValue: 'solid',
+              options: [
+                { label: 'None (Transparent)', value: 'none' },
+                { label: 'Solid Color', value: 'solid' },
+                { label: 'Image', value: 'image' },
+              ],
+            },
+            {
+              name: 'backgroundColor',
+              type: 'select',
+              defaultValue: 'light',
+              options: [
+                { label: 'Light (Dark Grey)', value: 'light' },
+                { label: 'Dark (Near Black)', value: 'dark' },
+                { label: 'Accent (Blue-Grey)', value: 'accent' },
+                { label: 'Custom Color', value: 'custom' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'solid',
+              },
+            },
+            {
+              name: 'customBackgroundColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+              },
+            },
+            {
+              name: 'customTextColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'solid' && siblingData?.backgroundColor === 'custom',
+              },
+            },
+            {
+              name: 'backgroundImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+              },
+            },
+            {
+              name: 'overlayColor',
+              type: 'select',
+              defaultValue: 'dark',
+              options: [
+                { label: 'Dark Overlay', value: 'dark' },
+                { label: 'Light Overlay', value: 'light' },
+                { label: 'Custom Overlay', value: 'custom' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+              },
+            },
+            {
+              name: 'customOverlayColor',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) =>
+                  siblingData?.backgroundType === 'image' && siblingData?.overlayColor === 'custom',
+              },
+            },
+            {
+              name: 'overlayOpacity',
+              type: 'number',
+              defaultValue: 70,
+              min: 0,
+              max: 100,
+              admin: {
+                condition: (_data, siblingData) => siblingData?.backgroundType === 'image',
+              },
+            },
+
+            // Left Photo Metadata
+            {
+              name: 'leftPhotoCaption',
+              type: 'text',
+              admin: {
+                description: 'Optional caption for left photo (shown in modal)',
+              },
+            },
+            {
+              name: 'leftPhotoIsFilm',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark left photo as film photograph',
+              },
+            },
+            {
+              name: 'leftPhotoFilmType',
+              type: 'select',
+              options: [
+                { label: '35mm', value: '35mm' },
+                { label: '645 Medium Format', value: '645' },
+                { label: '6x6 Medium Format', value: '6x6' },
+                { label: '6x7 Medium Format', value: '6x7' },
+                { label: '6x9 Medium Format', value: '6x9' },
+                { label: 'Large Format 4x5', value: '4x5' },
+                { label: 'Large Format 8x10', value: '8x10' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.leftPhotoIsFilm === true,
+              },
+            },
+            {
+              name: 'leftPhotoFilmStock',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.leftPhotoIsFilm === true,
+              },
+            },
+            {
+              name: 'leftPhotoBlackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'leftPhotoApplyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'leftPhotoFilmBorderNumber',
+              type: 'select',
+              dbName: 'left_border_num',
+              options: [
+                { label: 'Border 1', value: '1' },
+                { label: 'Border 2', value: '2' },
+                { label: 'Border 3', value: '3' },
+                { label: 'Border 4', value: '4' },
+                { label: 'Border 5', value: '5' },
+                { label: 'Border 6', value: '6' },
+                { label: 'Border 7', value: '7' },
+                { label: 'Border 8', value: '8' },
+              ],
+              defaultValue: '1',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.leftPhotoApplyFilmBorder === true,
+              },
+            },
+
+            // Right Photo Metadata
+            {
+              name: 'rightPhotoCaption',
+              type: 'text',
+              admin: {
+                description: 'Optional caption for right photo (shown in modal)',
+              },
+            },
+            {
+              name: 'rightPhotoIsFilm',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Mark right photo as film photograph',
+              },
+            },
+            {
+              name: 'rightPhotoFilmType',
+              type: 'select',
+              options: [
+                { label: '35mm', value: '35mm' },
+                { label: '645 Medium Format', value: '645' },
+                { label: '6x6 Medium Format', value: '6x6' },
+                { label: '6x7 Medium Format', value: '6x7' },
+                { label: '6x9 Medium Format', value: '6x9' },
+                { label: 'Large Format 4x5', value: '4x5' },
+                { label: 'Large Format 8x10', value: '8x10' },
+              ],
+              admin: {
+                condition: (_data, siblingData) => siblingData?.rightPhotoIsFilm === true,
+              },
+            },
+            {
+              name: 'rightPhotoFilmStock',
+              type: 'text',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.rightPhotoIsFilm === true,
+              },
+            },
+            {
+              name: 'rightPhotoBlackAndWhite',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'rightPhotoApplyFilmBorder',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'rightPhotoFilmBorderNumber',
+              type: 'select',
+              dbName: 'right_border_num',
+              options: [
+                { label: 'Border 1', value: '1' },
+                { label: 'Border 2', value: '2' },
+                { label: 'Border 3', value: '3' },
+                { label: 'Border 4', value: '4' },
+                { label: 'Border 5', value: '5' },
+                { label: 'Border 6', value: '6' },
+                { label: 'Border 7', value: '7' },
+                { label: 'Border 8', value: '8' },
+              ],
+              defaultValue: '1',
+              admin: {
+                condition: (_data, siblingData) => siblingData?.rightPhotoApplyFilmBorder === true,
+              },
+            },
+          ],
+        },
+
+        // Block 5: Text Card (Full Width)
         {
           slug: 'textCard',
           labels: {
