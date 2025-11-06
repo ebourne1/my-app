@@ -60,12 +60,26 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
   const height = image.height || 800
   const alt = image.alt || 'Gallery photo'
 
+  // Calculate scaled dimensions for modal (max 2400px on longest side)
+  const maxModalDimension = 2400
+  const aspectRatio = width / height
+  let modalWidth = width
+  let modalHeight = height
+
+  if (width > height && width > maxModalDimension) {
+    modalWidth = maxModalDimension
+    modalHeight = Math.round(maxModalDimension / aspectRatio)
+  } else if (height > width && height > maxModalDimension) {
+    modalHeight = maxModalDimension
+    modalWidth = Math.round(maxModalDimension * aspectRatio)
+  }
+
   // Generate Cloudinary URL with higher quality for modal
-  // Use actual image dimensions to ensure correct border orientation
+  // Use scaled dimensions to ensure good quality while maintaining performance
   const imageUrl = getCloudinaryUrl({
     imageUrl: image.url || '',
-    width, // Use actual image width for correct orientation detection
-    height, // Use actual image height for correct orientation detection
+    width: modalWidth, // Use scaled width for correct orientation detection
+    height: modalHeight, // Use scaled height for correct orientation detection
     applyFilmBorder,
     filmBorderNumber,
     isBlackAndWhite: blackAndWhite,
@@ -87,8 +101,8 @@ export default function PhotoModal({ isOpen, onClose, photo }: PhotoModalProps) 
           <Image
             src={imageUrl}
             alt={alt}
-            width={width}
-            height={height}
+            width={modalWidth}
+            height={modalHeight}
             className="photo-modal-image"
             quality={95}
             priority
